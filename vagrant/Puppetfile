@@ -1,0 +1,7 @@
+mod 'puppetlabs/apache'
+mod 'puppetlabs/apt'
+mod 'puppetlabs/concat'
+mod 'puppetlabs/stdlib'
+
+mod 'adrien/alternatives'
+mod 'lazyfrosch/vagrantenv'

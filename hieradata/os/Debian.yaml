@@ -1,0 +1,9 @@
+---
+apt::purge:
+  preferences.d: true
+  source.list.d: true
+
+apt::update:
+  frequence: daily
+  purge:
+    - preferences.d

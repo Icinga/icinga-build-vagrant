@@ -1,0 +1,10 @@
+:backends:
+  - yaml
+:yaml:
+  :datadir: /vagrant/hieradata
+:hierarchy:
+  - "node/%{::fqdn}"
+  - "os/%{::operatingsystem}-%{::operatingsystemmajrelease}"
+  - "os/%{::operatingsystem}"
+  - "os/%{::osfamily}"
+  - common
