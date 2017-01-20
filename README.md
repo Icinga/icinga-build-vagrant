@@ -5,6 +5,8 @@ This environment helps you to bring up a local test environment for the Icinga b
 
 It is not intended for demo, but for developing the build system.
 
+Based on [lazyfrosch/vagrant-puppet-boilerplate](https://github.com/lazyfrosch/vagrant-puppet-boilerplate).
+
 ## Prepare
 
 Checkout this repository
@@ -17,6 +19,7 @@ Checkout this repository
 Install required ruby tools:
 
     bundle install
+    bundle install --path vendor/bundle
 
 And checkout the Puppet modules: (via r10k)
 
