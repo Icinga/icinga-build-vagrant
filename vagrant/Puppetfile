@@ -1,7 +1,10 @@
 mod 'puppetlabs/apache'
 mod 'puppetlabs/apt'
 mod 'puppetlabs/concat'
-mod 'puppetlabs/stdlib'
+mod 'puppetlabs/java'
+mod 'puppetlabs/stdlib', '4.12.0' # due to Puppet 3.8
 
-mod 'adrien/alternatives'
+mod 'puppet/alternatives'
+mod 'puppet/archive'
 mod 'lazyfrosch/vagrantenv'
+mod 'rtyler/jenkins'
