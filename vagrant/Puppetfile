@@ -1,3 +1,7 @@
+mod 'icinga_build',
+  git: 'git@git.icinga.com:packaging/puppet-icinga_build.git',
+  branch: 'master'
+
 mod 'puppetlabs/apache'
 mod 'puppetlabs/apt'
 mod 'puppetlabs/concat'
