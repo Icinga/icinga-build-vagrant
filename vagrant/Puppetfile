@@ -1,5 +1,5 @@
 mod 'icinga_build',
-  git: 'git@git.icinga.com:packaging/puppet-icinga_build.git',
+  git:    'git@github.com:Icinga/puppet-icinga_build.git',
   branch: 'master'
 
 mod 'puppetlabs/apache'
