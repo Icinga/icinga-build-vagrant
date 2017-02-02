@@ -32,6 +32,11 @@ def setup_coreos(config)
     config.vbguest.auto_update = false
   end
 
+  config.vm.provider 'virtualbox' do |vb|
+    vb.cpus = 2
+    vb.memory = '2048'
+  end
+
   config.vm.provision 'shell' do |shell|
     shell.path = 'scripts/provision_coreos_jenkins.sh'
   end
