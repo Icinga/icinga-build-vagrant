@@ -4,12 +4,19 @@ set -e
 
 REGISTRY="net-docker-registry.adm.netways.de:5000"
 IMAGE="jenkins-slave"
-CONTAINER="jenkins-slave"
+CONTAINER="icinga-jenkins-slave"
+DATA="/data/docker/${CONTAINER}"
+
+# WARNING: INSECURE SSH KEY
+SSH_KEY='ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtGIRhrYRnuzfENvBL/6YwwPIv4FVVLbHY70XpX8kUMK4oxFz9REwRK5pERNSqGOUAb66sVOLWCxgEAtfKsOxIA07OSGGzN9dlgOlNy/ud3qxbDo6RAiFHmP3eGDpA9uE0FiSMOoRqXaEG6lPFpfKta9JPOssh8rEvHQU8EAQbrYkPK8Rv6bZ3MYmTdOim1aV8HVSGmXMRtbCx/lVEpbfrnPJp/GbG1ewMXpOz9lr2YXJuhREoxcLflhlVACa7z4Ab5RxTXW71piyKV9x0X1tHb2KVbcD/byi+Sv89UwQU+ZHq3Og/57IOJcofSTWlpYlP1Fn95qrbPVzf4zVblRHR Jenkins INSECURE TEST KEY'
 
 docker_certs="/etc/docker/certs.d"
 certs_path="${docker_certs}/${REGISTRY}"
 image_uri="${REGISTRY}/${IMAGE}"
 
+###
+# Update local trust for Docker registry
+###
 if [ ! -d "$certs_path" ]; then
     mkdir -p "$certs_path"
 fi
@@ -52,53 +59,141 @@ pWXYB8xij/CdHkVl1cnh1rHtgGwi7j2oB5/IzzdVGUst46+R
 EOF
 fi
 
-echo "Checking for an updated Docker image of ${image_uri}"
-docker pull "${image_uri}"
+###
+# create and provision local data directory
+###
+if [ ! -d "${DATA}" ]
+then
+    echo "Creating ${DATA}"
+    mkdir -p "${DATA}"
+fi
 
+if [ ! -d "${DATA}/home" ]
+then
+    echo "Creating ${DATA}/home"
+    mkdir "${DATA}/home"
+    chown 1000.1000 "${DATA}/home"
+    chmod 0700 "${DATA}/home"
+fi
+
+if [ ! -f "${DATA}/ssh/authorized_keys" ]
+then
+    if [ ! -d "${DATA}/ssh" ]; then
+        mkdir "${DATA}/ssh"
+        chown 1000.1000 "${DATA}/ssh"
+        chmod 0700 "${DATA}/ssh"
+    fi
+    echo "Creating ${DATA}/ssh/authorized_keys"
+    echo "${SSH_KEY}" > "${DATA}/ssh/authorized_keys"
+    chown 1000.1000 "${DATA}/ssh/authorized_keys"
+    chmod 0600 "${DATA}/ssh/authorized_keys"
+
+elif ! grep -q "${SSH_KEY}" "${DATA}/ssh/authorized_keys"
+then
+    echo "Updating ${DATA}/ssh/authorized_keys"
+    echo "${SSH_KEY}" > "${DATA}/ssh/authorized_keys"
+    chown 1000.1000 "${DATA}/ssh/authorized_keys"
+    chmod 0600 "${DATA}/ssh/authorized_keys"
+fi
+
+restart=1
+
+###
+# check if a newer image is available
+###
 docker_image_id() {
     docker inspect --type=image -f '{{.Id}}' "${1}"
 }
 
-docker_container_image() {
-    docker inspect --type=container -f '{{.Image}}' "${1}" || true
-}
+image_old_id=`docker_image_id ${image_uri}`
+echo "Checking for an updated Docker image of ${image_uri}"
+docker pull "${image_uri}" >/dev/null
+image_new_id=`docker_image_id ${image_uri}`
 
-docker_container_running() {
-    docker inspect --type=container -f '{{.State.Running}}' "${1}" || true
-}
-
-running_id=$(docker_container_image "${CONTAINER}")
-image_id=$(docker_image_id "${image_uri}")
-
-if [ "$running_id" != "" ] && [ "$running_id" != "$image_id" ]; then
-    echo "Removing outdated running container..."
-    docker stop "${CONTAINER}"
-    docker rm "${CONTAINER}"
+if [ "${image_old_id}" != "${image_new_id}" ]
+then
+    echo "Image ${image_uri} has been updated, scheduling restart..."
+    restart=0
 fi
 
-running=$(docker_container_running "${CONTAINER}")
-if [ "$running" != "true" ]; then
-    if [ "$running" = "false" ]; then
-        echo "Removing stopped container..."
-        docker rm "${CONTAINER}"
-    fi
+###
+# check if systemd is up to date
+###
+systemd_unit="docker-${CONTAINER}.service"
+systemd_unit_file="/etc/systemd/system/${systemd_unit}"
+systemd_unit_file_tmp=`mktemp systemd.XXXXXX`
+trap "rm -f ${systemd_unit_file_tmp}" EXIT SIGINT
 
-    echo "Starting jenkins-slave..."
-    docker run -d \
-        --privileged \
-        -p 2222:22 \
-        --restart=always \
-        --name "${CONTAINER}" \
+cat > "${systemd_unit_file_tmp}" <<EOF
+[Unit]
+Description=Icinga Jenkins slave in Docker
+After=docker.service
+Requires=docker.service
+
+[Service]
+Restart=always
+StartLimitInterval=20
+StartLimitBurst=5
+TimeoutStartSec=0
+SyslogIdentifier=docker-${CONTAINER}
+ExecStartPre=-/usr/bin/docker kill "${CONTAINER}"
+ExecStartPre=-/usr/bin/docker rm  "${CONTAINER}"
+
+ExecStart=/usr/bin/docker run \\
+        --privileged \\
+        -p 2222:22 \\
+        -e "DOCKER_DAEMON_ARGS=--storage-driver overlay" \\
+        -v /etc/docker/certs.d:/etc/docker/certs.d:ro \\
+        -v "${DATA}/home":/home/jenkins \\
+        -v "${DATA}/ssh":/home/jenkins/.ssh:ro \\
+        -v "${DATA}/docker":/var/lib/docker \\
+        --restart=always \\
+        --name "${CONTAINER}" \\
         "${image_uri}"
 
-    echo "Injecting CA certificate into ${CONTAINER}..."
-    docker exec -i "${CONTAINER}" sh -c 'mkdir -p '"$certs_path"
-    docker cp "${certs_path}/ca.crt" "${CONTAINER}":"${certs_path}/ca.crt"
+ExecStop=-/usr/bin/docker stop --time=0 ${CONTAINER}
+ExecStop=-/usr/bin/docker rm  ${CONTAINER}
 
-    # TODO: insert testing access into slave container
-    echo "Setting testing jenkins password in ${CONTAINER}..."
-    docker exec -i "${CONTAINER}" sh -c 'echo jenkins:jenkins | chpasswd'
+[Install]
+WantedBy=multi-user.target
+EOF
 
-    echo "Removing SSH keys from container for security..."
-    docker exec -i "${CONTAINER}" rm -rf /home/jenkins/.ssh
+if [ ! -f "${systemd_unit_file}" ]
+then
+    echo "Creating ${systemd_unit_file}..."
+    cp "${systemd_unit_file_tmp}" "${systemd_unit_file}"
+
+    echo "Reloading systemd..."
+    systemctl daemon-reload
+    restart=0
+
+elif ! cmp --silent "${systemd_unit_file}" "${systemd_unit_file_tmp}"
+then
+    echo "Replacing ${systemd_unit_file} with new version..."
+    diff -u "${systemd_unit_file}" "${systemd_unit_file_tmp}" || true
+    cp "${systemd_unit_file_tmp}" "${systemd_unit_file}"
+
+    echo "Reloading systemd..."
+    systemctl daemon-reload
+    restart=0
+fi
+
+if ! systemctl is-enabled ${systemd_unit} >/dev/null
+then
+    echo "Enabling service ${systemd_unit} for autostart"
+    systemctl enable ${systemd_unit}
+fi
+
+if [ ${restart} -eq 0 ]
+then
+    echo "Restarting service ${systemd_unit}"
+    systemctl restart ${systemd_unit}
+
+elif ! systemctl is-active ${systemd_unit} >/dev/null
+then
+    echo "Starting service ${systemd_unit}"
+    systemctl start ${systemd_unit}
+
+else
+    echo "Service ${systemd_unit} is running."
 fi
