@@ -4,6 +4,9 @@ classes:
   - icinga_build
 
 java::package: openjdk-8-jdk
+java::package_options: 
+  - '-t'
+  - 'jessie-backports'
 
 ###
 # Config from Foreman
