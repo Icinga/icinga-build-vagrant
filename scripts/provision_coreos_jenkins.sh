@@ -105,7 +105,7 @@ docker_image_id() {
     docker inspect --type=image -f '{{.Id}}' "${1}"
 }
 
-image_old_id=`docker_image_id ${image_uri}`
+image_old_id=`docker_image_id ${image_uri}` || true
 echo "Checking for an updated Docker image of ${image_uri}"
 docker pull "${image_uri}" >/dev/null
 image_new_id=`docker_image_id ${image_uri}`
