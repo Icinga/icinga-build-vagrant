@@ -47,6 +47,19 @@ Apply changes in the Puppet or hiera data:
     vagrant provision
     vagrant provision <host>
 
+## Known Problems
+
+Puppet will fail the first time when trying to create the build-jobs.
+This is because authorization for the anonymous user is currently missing,
+to work around this do the following:
+
+* `vagrant ssh jenkins` and become root
+* Edit the `/var/lib/jenkins/config.xml` file
+* Set `useSecurity` to false
+* Remove the `authorizationStrategy` and `securityRealm` blocks
+* Save the file and restart Jenkins
+* Leave the machine and re-run `vagrant provision jenkins`
+
 ## License
 
     Copyright (C) 2017 Icinga Development Team <info@icinga.com>
