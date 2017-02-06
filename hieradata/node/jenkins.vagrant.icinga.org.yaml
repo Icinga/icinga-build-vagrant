@@ -72,6 +72,36 @@ jenkins::credentials:
       huiZIPGV0AI4JYqchmCtVfbIEw+PAlnK3qUMt6JrvjbiJ5aaBS2s
       -----END RSA PRIVATE KEY-----
 
+icinga_build::ssh_private_key: |
+  -----BEGIN RSA PRIVATE KEY-----
+  MIIEowIBAAKCAQEArRiEYa2EZ7s3xDbwS/+mMMDyL+BVVS2x2O9F6V/JFDCuKMRc
+  /URMESuaRETUqhjlAG+urFTi1gsYBALXyrDsSANOzkhhszfXZYDpTcv7nd6sWw6O
+  kQIhR5j93hg6QPbhNBYkjDqEal2hBupTxaXyrWvSTzrLIfKxLx0FPBAEG62JDyvE
+  b+m2dzGJk3ToptWlfB1UhplzEbWwsf5VRKW365zyafxmxtXsDF6Ts/Za9mFyboUR
+  KMXC35YZVQAmu8+AG+UcU11u9aYsilfcdF9bR29ilW3A/28ovkr/PVMEFPmR6tzo
+  P+eyDiXKH0k1paWJT9RZ/eaq2z1c3+M1W5UR0QIDAQABAoIBAD/7nQuCGTxCvvVf
+  nWlqQWMqHxvFX6WRs3jN0VjXmDtHV0kodHsF4NxD8s0jaDzL4PJNVhLLeeHGzgTF
+  jECXL2/bESk9JigaDxutEBA6w3JymeE6u0YstGKD0etjpzzWRR58xNu00beDjn9A
+  5OBdXBvwjBfPUsDktcwFfSbbgLk9yxIOMQkMBFtvkrZXMGlqKXZVKj9yWtHcws0H
+  T3uVXUhX0VGe0t8Tappg+R3SIojLT21f0tG2lpbKdk5i3CQJvJJzJMu1DIum7aB3
+  luUnp37IUpDLSHdbkFI3wVReF8EnaxxFW/tWVWMYTVbg9VBhG5oK4pAVquQBBVSB
+  xHOmqbUCgYEA5JJt4ACtxJMNzIRdZSDchmAMihRUHQNuIKtlf0L0vSYRk+imQJQ6
+  jrlNUd6fL6D4o5byEqrTNrVnGmm2iXJAneW/wv3z2CoyOED6T7p++gmWqdeOKAVs
+  b/LUDQBmPXDufpMtpFPYSBARfP+VDtX1J4kB1T5lmweE1r7ykqo+0psCgYEAwd3l
+  wJjm0ZIX8YneAe0w+66MBiLhdYCtng/Pj2UiTtGfQs2Ma0+R002j4JevvjwJytnS
+  i6tc2AEgv+f3swwOV/FwOnTqhYfLUEitHrA7p+cJI4E/rOZ7PPSXyNfqVWKgxfhJ
+  Nh0MWjMyAI9Ip+7kAT11p5muJ22N4VJKJLuubgMCgYAE8g4ijKE14aCozixfJcjf
+  t3BOBIaVYh+d4Vd+22oENbCnrJ78QrjJocTEgrabBzaaA4gVU1DinCYw8hya+Lfh
+  MrlldK0z/iW8BdvkobphmpeB8UIIJ6Xi/jQMW/faWHkwj+qq5Y2GcaKPO9Bz07lM
+  M7CwdnsoUY9UPiltdvWJBQKBgBX2DRDEQWF8KzoxY/TT6biZDUOkr+Wfrgs5v0l/
+  K2PCW0g2ALInUV2ebfIDPOVP58wS4MbxopLVjeAvZt/hfb54mz4EAI0f1OhDU1km
+  nZtnkKF1AsGTWmKNUqRt0R3bDltexOxcXgnZwtBNau2bIjkBvVI/Fntg7bGYoM2I
+  dToBAoGBAJ3vKVDFt3ccHhPgREzQl05qZPcoJ0P8wMtg3I39Hc5Zy8CJbcQKC+WF
+  UuZXJJk1VzqsRvry8keKKhbCUwf0nFcbUM85zL004DS2u3uc9GoULHhmhIG122sJ
+  huiZIPGV0AI4JYqchmCtVfbIEw+PAlnK3qUMt6JrvjbiJ5aaBS2s
+  -----END RSA PRIVATE KEY-----
+
+
 jenkins::plugin:
   jenkins-multijob-plugin:
     version: "1.21"
