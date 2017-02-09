@@ -11,4 +11,7 @@ mod 'puppetlabs/stdlib', '4.12.0' # due to Puppet 3.8
 mod 'puppet/alternatives'
 mod 'puppet/archive'
 mod 'lazyfrosch/vagrantenv'
-mod 'rtyler/jenkins'
+
+mod 'jenkins',
+  git: 'https://github.com/jenkinsci/puppet-jenkins.git',
+  ref: '33ddc372cb8da998e34222e40f10e6bef6940045' # current master for upcoming 1.8.0
