@@ -16,7 +16,7 @@ icinga_build::pipeline::defaults::docker_image: 'net-docker-registry.adm.netways
 icinga_build::pipeline::defaults::jenkins_label: 'docker-test'
 icinga_build::pipeline::defaults::arch:
   - x86_64
-  - i386
+  - x86
 icinga_build::pipeline::defaults::views_hash:
   Deb:
     include_regex: '^deb-.*'
