@@ -64,6 +64,8 @@ icinga_build::pipeline:
 jenkins::executors: 0
 
 # TODO: support adding Jenkins credentials
+# public_key:
+#   ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtGIRhrYRnuzfENvBL/6YwwPIv4FVVLbHY70XpX8kUMK4oxFz9REwRK5pERNSqGOUAb66sVOLWCxgEAtfKsOxIA07OSGGzN9dlgOlNy/ud3qxbDo6RAiFHmP3eGDpA9uE0FiSMOoRqXaEG6lPFpfKta9JPOssh8rEvHQU8EAQbrYkPK8Rv6bZ3MYmTdOim1aV8HVSGmXMRtbCx/lVEpbfrnPJp/GbG1ewMXpOz9lr2YXJuhREoxcLflhlVACa7z4Ab5RxTXW71piyKV9x0X1tHb2KVbcD/byi+Sv89UwQU+ZHq3Og/57IOJcofSTWlpYlP1Fn95qrbPVzf4zVblRHR jenkins@icinga-build
 jenkins::credentials:
   icinga-slaves:
     password: ''
