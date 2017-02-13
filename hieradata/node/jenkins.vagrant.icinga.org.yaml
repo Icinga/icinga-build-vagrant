@@ -40,6 +40,11 @@ icinga_build::pipeline:
         use: ubuntu
       'ubuntu-trusty':
         use: ubuntu
+    matrix_rpm:
+      'centos-6': {}
+      'centos-7':
+        arch:
+          - x86_64
   icingaweb2-snapshot:
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
@@ -52,6 +57,9 @@ icinga_build::pipeline:
       'ubuntu-precise': {}
       'ubuntu-trusty': {}
       'ubuntu-xenial': {}
+    matrix_rpm:
+      'centos-6': {}
+      'centos-7': {}
 
 jenkins::executors: 0
 
