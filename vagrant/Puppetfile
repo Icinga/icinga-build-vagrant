@@ -15,3 +15,5 @@ mod 'lazyfrosch/vagrantenv'
 mod 'jenkins',
   git: 'https://github.com/jenkinsci/puppet-jenkins.git',
   ref: '33ddc372cb8da998e34222e40f10e6bef6940045' # current master for upcoming 1.8.0
+
+mod 'gdsoperations/aptly'

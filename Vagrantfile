@@ -55,6 +55,16 @@ Vagrant.configure(2) do |config|
     setup_puppet_vm(host)
   end
 
+  config.vm.define 'aptly' do |host|
+    host.vm.hostname = "aptly.#{domain}"
+    host.vm.network 'forwarded_port', guest: 8080, host: 8090
+    host.vm.network 'forwarded_port', guest: 80, host: 9090
+    host.vm.network 'private_network', ip: '192.168.33.3'
+    host.vm.box = "ubuntu/trusty64"
+
+    setup_puppet_vm(host)
+  end
+
   config.vm.define 'docker1' do |host|
     host.vm.hostname = "docker1.#{domain}"
     host.vm.network 'private_network', ip: '192.168.33.81'

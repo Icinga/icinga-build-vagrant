@@ -1,0 +1,51 @@
+---
+classes:
+  - apache
+  - aptly
+  - aptly::api
+
+aptly::config:
+  rootDir: /var/www/html/aptly
+  downloadSourcePackages: true
+
+aptly::aptly_repos:
+  icinga-debian-wheezy-snapshot:
+    comment: 'Icinga 2 Debian wheezy snapshots'
+  icinga-debian-jessie-snapshot:
+    comment: 'Icinga 2 Debian jessie snapshots'
+  icinga-ubuntu-precise-snapshot:
+    comment: 'Icinga 2 Ubuntu precise snapshots'
+  icinga-ubuntu-trusty-snapshot:
+    comment: 'Icinga 2 Ubuntu trusty snapshots'
+  icinga-ubuntu-wily-snapshot:
+    comment: 'Icinga 2 Ubuntu wily snapshots'
+  icinga-ubuntu-xenial-snapshot:
+    comment: 'Icinga 2 Ubuntu xenial snapshots'
+  icinga-debian-wheezy-giraffe:
+    comment: 'Icinga 2 Debian wheezy giraffe test builds'
+  icinga-debian-jessie-giraffe:
+    comment: 'Icinga 2 Debian jessie giraffe test builds'
+  icinga-ubuntu-precise-giraffe:
+    comment: 'Icinga 2 Ubuntu precise giraffe test builds'
+  icinga-ubuntu-trusty-giraffe:
+    comment: 'Icinga 2 Ubuntu trusty giraffe test builds'
+  icinga-ubuntu-wily-giraffe:
+    comment: 'Icinga 2 Ubuntu wily giraffe test builds'
+  icinga-ubuntu-xenial-giraffe:
+    comment: 'Icinga 2 Ubuntu xenial giraffe test builds'
+  icinga-debian-wheezy-release:
+    comment: 'Icinga 2 Debian wheezy releases'
+  icinga-debian-jessie-release:
+    comment: 'Icinga 2 Debian jessie releases'
+  icinga-ubuntu-precise-release:
+    comment: 'Icinga 2 Ubuntu precise releases'
+  icinga-ubuntu-trusty-release:
+    comment: 'Icinga 2 Ubuntu trusty releases'
+  icinga-ubuntu-wily-release:
+    comment: 'Icinga 2 Ubuntu wily releases'
+  icinga-ubuntu-xenial-release:
+    comment: 'Icinga 2 Ubuntu xenial releases'
+
+aptly::api::listen: "0.0.0.0:8080"
+aptly::api::enable_cli_and_http: true
+

@@ -3,6 +3,7 @@
 set -e
 
 OSTYPE="unknown"
+OSDIST="unknown"
 
 if [ -e /etc/debian_version ]; then
     OSTYPE="Debian"
@@ -26,17 +27,18 @@ if [ ! -e /var/initial_update ]; then
     fi
 fi
 
-if [ "$OSTYPE" = "Debian" ]; then
-    bp="/etc/apt/sources.list.d/backports.list"
-    if [ ! -e "$bp" ]; then
-        echo "Enabling backports repo"
-        echo "deb http://httpredir.debian.org/debian ${CODENAME}-backports main" >"$bp"
-        apt-get update
-    fi
-#    echo "Installing Puppetlabs release package..."
-#    wget -O /tmp/puppetlabs.deb "https://apt.puppetlabs.com/puppetlabs-release-${CODENAME}.deb"
-#    dpkg -i /tmp/puppetlabs.deb
-#    rm -f /tmp/puppetlabs.deb
+if [ "$OSTYPE" = "Debian" ] && [ "$OSDIST" != "Ubuntu" ]; then
+#    bp="/etc/apt/sources.list.d/backports.list"
+#    if [ ! -e "$bp" ]; then
+#        echo "Enabling backports repo"
+#        echo "deb http://httpredir.debian.org/debian ${CODENAME}-backports main" >"$bp"
+#        apt-get update
+#    fi
+    echo "Installing Puppetlabs release package..."
+    wget -O /tmp/puppetlabs.deb "https://apt.puppetlabs.com/puppetlabs-release-${CODENAME}.deb"
+    dpkg -i /tmp/puppetlabs.deb
+    rm -f /tmp/puppetlabs.deb
+    apt-get update
 elif [ "$OSTYPE" = "RedHat" ]; then
     if [ ! -e /etc/yum.repos.d/puppetlabs.repo ]; then
         echo "Installing Puppet 3 release..."
@@ -44,13 +46,11 @@ elif [ "$OSTYPE" = "RedHat" ]; then
     fi
 fi
 
-if [ ! -e /usr/bin/puppet ]; then
-    echo "Installing puppet..."
-    if [ "$OSTYPE" = "Debian" ]; then
-        apt-get install -y "puppet=3.8*" "puppet-common=3.8*"
-    elif [ "$OSTYPE" = "RedHat" ]; then
-        yum install -y puppet
-    fi
+echo "Installing puppet..."
+if [ "$OSTYPE" = "Debian" ]; then
+    apt-get install -y "puppet=3.8*" "puppet-common=3.8*"
+elif [ "$OSTYPE" = "RedHat" ]; then
+    yum install -y puppet
 fi
 
 if [ "$OSTYPE" = "RedHat" ]; then
