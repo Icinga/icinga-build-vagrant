@@ -1,0 +1,33 @@
+<h2>Release Builds</h2>
+
+RHEL/CentOS 7:
+<p style="font-size: 0.8em;"><code>
+rpm -i https://packages.icinga.com/epel/7/release/noarch/icinga-rpm-release-7-1.el7.centos.noarch.rpm
+</code></p>
+
+RHEL/CentOS 6:
+<p style="font-size: 0.8em;"><code>
+rpm -i https://packages.icinga.com/epel/6/release/noarch/icinga-rpm-release-6-1.el6.noarch.rpm 
+</code></p>
+
+RHEL/CentOS 5:
+<p style="font-size: 0.8em;"><code>
+rpm -i http://packages.icinga.com/epel/5/release/noarch/icinga-rpm-release-5-1.el5.centos.noarch.rpm
+</code></p>
+</p>
+
+<h2>Snapshot Builds</h2>
+
+<p style="font-weight: bold; color: red;">
+WARNING: These are auto-built packages, based on current development trees.<br/>
+Made only for testing purposes, you should not use them in production environments!
+</p>
+
+<p style="font-size: 0.8em;"><code>
+rpm --import http://packages.icinga.com/icinga.key<br/>
+wget http://packages.icinga.com/epel/ICINGA-snapshot.repo -O /etc/yum.repos.d/ICINGA-snapshot.repo<br/>
+yum makecache
+</code></p>
+</p>
+
+

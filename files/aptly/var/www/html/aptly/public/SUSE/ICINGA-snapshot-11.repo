@@ -1,0 +1,7 @@
+[icinga-snapshot-builds]
+name=ICINGA (snapshot builds for SUSE sles11-sp4)
+baseurl=http://packages.icinga.com/SUSE/sles11-sp4/snapshot/
+enabled=1
+gpgcheck=1
+gpgkey=http://packages.icinga.com/icinga.key
+metadata_expire=1d

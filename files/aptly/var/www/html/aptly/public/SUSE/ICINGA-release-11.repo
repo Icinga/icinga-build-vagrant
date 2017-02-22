@@ -1,0 +1,6 @@
+[icinga-stable-release]
+name=ICINGA (stable release for SUSE sles11-sp4)
+baseurl=http://packages.icinga.com/SUSE/sles11-sp4/release/
+enabled=1
+gpgcheck=1
+gpgkey=http://packages.icinga.com/icinga.key

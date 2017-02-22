@@ -4,6 +4,15 @@ classes:
   - aptly
   - aptly::api
 
+package:
+  ruby2.0:
+    ensure: present
+  rpm:
+    ensure: present
+  syslog-logger:
+    ensure: present
+    provider: gem
+
 aptly::config:
   rootDir: /var/www/html/aptly
   downloadSourcePackages: true
@@ -49,3 +58,56 @@ aptly::aptly_repos:
 aptly::api::listen: "0.0.0.0:8080"
 aptly::api::enable_cli_and_http: true
 
+
+file:
+  /usr/local/bin/aptly-cleanup-snapshots.sh:
+    ensure: file
+    mode: '0770'
+    source: '/vagrant/files/aptly/usr/local/bin/aptly-cleanup-snapshots.sh'
+  /usr/local/bin/update-rpms.rb:
+    ensure: file
+    mode: '0770'
+    source: '/vagrant/files/aptly/usr/local/bin/update-rpms.rb'
+  /var/www/html/aptly/public:
+    ensure: directory
+    recurse: true
+    recurselimit: 2
+    source: '/vagrant/files/aptly/var/www/html/aptly/public'
+  /var/www/html/aptly/public/epel/5Server:
+    ensure: link
+    target: '5'
+  /var/www/html/aptly/public/epel/6Server:
+    ensure: link
+    target: '6'
+  /var/www/html/aptly/public/epel/7Server:
+    ensure: link
+    target: '7'
+  /var/www/html/aptly/public/SUSE/11:
+    ensure: link
+    target: 'sles11-sp4'
+  /var/www/html/aptly/public/SUSE/12:
+    ensure: link
+    target: 'sles12-sp2'
+  /var/www/html/aptly/public/SUSE/11.4:
+    ensure: link
+    target: 'sles11-sp4'
+  /var/www/html/aptly/public/SUSE/12.2:
+    ensure: link
+    target: 'sles12-sp2'
+  /var/www/html/aptly/public/SUSE/sles11-sp4:
+    ensure: directory
+  /var/www/html/aptly/public/SUSE/sles12-sp2:
+    ensure: directory
+
+cron:
+  update-rpms:
+    ensure : "present"
+    user : 'root'
+    command : '/usr/local/bin/update-rpms.rb > /dev/null'
+    minute : '*'
+  aptly-cleanup-snapshots:
+    ensure : "present"
+    user : 'root'
+    command : '/usr/local/bin/aptly-cleanup-snapshots.sh > /dev/null'
+    minute : '0'
+    hour : '*'

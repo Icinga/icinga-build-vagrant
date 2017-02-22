@@ -1,0 +1,34 @@
+<h2>Release Builds</h2>
+
+Fedora 25:
+<p style="font-size: 0.8em;"><code>
+dnf install https://packages.icinga.com/fedora/25/release/noarch/icinga-rpm-release-25-1.fc25.noarch.rpm
+</code></p>
+</p>
+
+Fedora 24:
+<p style="font-size: 0.8em;"><code>
+dnf install https://packages.icinga.com/fedora/24/release/noarch/icinga-rpm-release-24-1.fc24.noarch.rpm
+</code></p>
+</p>
+
+Fedora 23:
+<p style="font-size: 0.8em;"><code>
+dnf install https://packages.icinga.com/fedora/23/release/noarch/icinga-rpm-release-23-1.fc23.noarch.rpm
+</code></p>
+</p>
+
+<h2>Snapshot Builds</h2>
+
+<p style="font-weight: bold; color: red;">
+WARNING: These are auto-built packages, based on current development trees.<br/>
+Made only for testing purposes, you should not use them in production environments!
+</p>
+
+<p style="font-size: 0.8em;"><code>
+rpm --import https://packages.icinga.com/icinga.key<br/>
+wget http://packages.icinga.com/fedora/ICINGA-snapshot.repo -O /etc/yum.repos.d/ICINGA-snapshot.repo<br/>
+yum makecache
+</code></p>
+</p>
+
