@@ -60,6 +60,14 @@ to work around this do the following:
 * Save the file and restart Jenkins
 * Leave the machine and re-run `vagrant provision jenkins`
 
+## Services
+
+| Service      | URL                         |
+| -------------|-----------------------------|
+| Jenkins      | http://localhost:8080       |
+| Aptly API    | http://localhost:8090       |
+| Repositories | http://localhost:9090/aptly |
+
 ## License
 
     Copyright (C) 2017 Icinga Development Team <info@icinga.com>
