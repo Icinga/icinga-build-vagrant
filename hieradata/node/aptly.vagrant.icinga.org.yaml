@@ -54,6 +54,7 @@ aptly::aptly_repos:
     comment: 'Icinga 2 Ubuntu wily releases'
   icinga-ubuntu-xenial-release:
     comment: 'Icinga 2 Ubuntu xenial releases'
+    notify: 'Service[aptly-api]'
 
 aptly::api::listen: "0.0.0.0:8080"
 aptly::api::enable_cli_and_http: true
@@ -73,6 +74,7 @@ file:
     recurse: true
     recurselimit: 2
     source: '/vagrant/files/aptly/var/www/html/aptly/public'
+    require: ['Class[apache]', 'Class[aptly]']
   /var/www/html/aptly/public/epel/5Server:
     ensure: link
     target: '5'
