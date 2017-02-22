@@ -41,8 +41,10 @@ icinga_build::pipeline:
       'ubuntu-trusty':
         use: ubuntu
     matrix_rpm:
-      'centos-6': {}
+      'centos-6':
+        use_epel: true
       'centos-7':
+        use_epel: true
         arch:
           - x86_64
   icingaweb2-snapshot:
