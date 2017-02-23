@@ -12,6 +12,9 @@ java::package_options:
 jenkins::cli::config::cli_jar: /usr/share/jenkins/jenkins-cli.jar
 jenkins::cli::config::puppet_helper: /usr/share/jenkins/puppet_helper.groovy
 
+icinga_build::pipeline::defaults::aptly_server: 'http://192.168.33.3'
+icinga_build::pipeline::defaults::aptly_user: 'icinga'
+icinga_build::pipeline::defaults::aptly_password: 'supersecret'
 icinga_build::pipeline::defaults::docker_image: 'net-docker-registry.adm.netways.de:5000/netways/{os}-{dist}-{arch}'
 icinga_build::pipeline::defaults::jenkins_label: 'docker-test'
 icinga_build::pipeline::defaults::arch:

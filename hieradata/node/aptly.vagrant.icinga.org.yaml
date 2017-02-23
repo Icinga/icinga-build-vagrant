@@ -1,6 +1,8 @@
 ---
 classes:
   - apache
+  - apache::mod::proxy
+  - apache::mod::proxy_http
   - aptly
   - aptly::api
 
@@ -12,6 +14,8 @@ package:
   syslog-logger:
     ensure: present
     provider: gem
+  gnupg2:
+    ensure: present
 
 aptly::config:
   rootDir: /var/www/html/aptly
@@ -100,6 +104,10 @@ file:
     ensure: directory
   /var/www/html/aptly/public/SUSE/sles12-sp2:
     ensure: directory
+  /etc/apache2/aptly-api-auth:
+    ensure: present
+    content: 'icinga:$apr1$4SAOEDzD$0mZ44nzJ8w.ygKoWb.SYQ0'
+    require: 'Class[apache]'
 
 cron:
   update-rpms:
@@ -113,3 +121,16 @@ cron:
     command : '/usr/local/bin/aptly-cleanup-snapshots.sh > /dev/null'
     minute : '0'
     hour : '*'
+
+apache::custom_config:
+  api-authentication:
+    content: |
+      <Location "/api/">
+        AuthType Basic
+        AuthName "Aptly API"
+        AuthBasicProvider file
+        AuthUserFile /etc/apache2/aptly-api-auth
+        Require user icinga
+        ProxyPass  http://127.0.0.1:8080/api/
+        ProxyPassReverse http://127.0.0.1:8080/api/
+      </Location>

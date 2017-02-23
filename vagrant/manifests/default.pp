@@ -8,4 +8,5 @@ node default {
   create_resources('apt::source', hiera_hash('apt::source', {}))
   create_resources("file", hiera_hash("file", {}))
   create_resources("cron", hiera_hash("cron", {}))
+  create_resources("apache::custom_config", hiera_hash("apache::custom_config", {}))
 }
