@@ -49,6 +49,7 @@ Apply changes in the Puppet or hiera data:
 
 ## Known Problems
 
+### Creating Jobs
 Puppet will fail the first time when trying to create the build-jobs.
 This is because authorization for the anonymous user is currently missing,
 to work around this do the following:
@@ -60,13 +61,23 @@ to work around this do the following:
 * Save the file and restart Jenkins
 * Leave the machine and re-run `vagrant provision jenkins`
 
+### Publishing Packages
+Aptly will fail to publish packages if there is no GPG key present. You need to generate one
+as user `root` and import the public key with `apt-key`.
+
+* `gpg2 --gen-key`
+* `gpg2 --export --armor > aptly.key`
+* `apt-key add aptly.key`
+
 ## Services
 
-| Service      | URL                         |
-| -------------|-----------------------------|
-| Jenkins      | http://localhost:8080       |
-| Aptly API    | http://localhost:8090       |
-| Repositories | http://localhost:9090/aptly |
+| Service          | VM                               | Local                              |
+| -----------------|----------------------------------|------------------------------------|
+| Jenkins          | http://192.168.33.2:8080         | http://localhost:8080              |
+| Jenkins Agent    | 192.168.33.81 SSH Port 2222      |                                    |
+| Aptly API        | http://192.168.33.3:8080         | http://localhost:8090              |
+| Aptly API (auth) | http://192.168.33.3              |                                    |
+| Repositories     | http://192.168.33.3/aptly/public | http://localhost:9090/aptly/public |
 
 ## License
 
