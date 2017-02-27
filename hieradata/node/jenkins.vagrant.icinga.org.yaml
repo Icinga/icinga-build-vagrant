@@ -32,6 +32,61 @@ icinga_build::pipeline::defaults::views_hash:
       - regex: '^rpm-([\w\d_\.]+)-([\w\d_\.]+)'
         name: '$1 $2'
 
+icinga_build::folder:
+  docker:
+    description: ""
+
+icinga_build::docker_job:
+  centos-image:
+    archs:
+      - "x86"
+      - "x86_64"
+    releases:
+      - "5"
+      - "6"
+      - "7"
+    base_image: "net-docker-registry.adm.netways.de:5000/netways/docker-images-bootstrap-xenial"
+    jenkins_label: "docker-test"
+  fedora-image:
+    archs:
+      - "x86"
+      - "x86_64"
+    releases:
+      - "24"
+      - "25"
+    base_image: "net-docker-registry.adm.netways.de:5000/netways/docker-images-bootstrap-xenial"
+    jenkins_label: "docker-test"
+  sles-image:
+    archs:
+      - "x86"
+      - "x86_64"
+    releases:
+      - "11-sp4"
+      - "12-sp1"
+      - "12-sp2"
+    base_image: "net-docker-registry.adm.netways.de:5000/netways/docker-images-bootstrap-xenial"
+    jenkins_label: "docker-test"
+  ubuntu-image:
+    archs:
+      - "x86"
+      - "x86_64"
+    releases:
+      - "precise"
+      - "trusty"
+      - "xenial"
+      - "yakkety"
+    base_image: "net-docker-registry.adm.netways.de:5000/netways/docker-images-bootstrap-xenial"
+    jenkins_label: "docker-test"
+  debian-image:
+    archs:
+      - "x86"
+      - "x86_64"
+    releases:
+      - "wheezy"
+      - "jessie"
+    base_image: "net-docker-registry.adm.netways.de:5000/netways/docker-images-bootstrap-xenial"
+    jenkins_label: "docker-test"
+
 icinga_build::pipeline:
   icinga2-snapshot:
     control_repo: https://github.com/Icinga/icinga-packaging.git
