@@ -50,6 +50,7 @@ Apply changes in the Puppet or hiera data:
 ## Known Problems
 
 ### Creating Jobs
+
 Puppet will fail the first time when trying to create the build-jobs.
 This is because authorization for the anonymous user is currently missing,
 to work around this do the following:
@@ -78,6 +79,21 @@ as user `root` and import the public key with `apt-key`.
 | Aptly API        | http://192.168.33.3:8080         | http://localhost:8090              |
 | Aptly API (auth) | http://192.168.33.3              |                                    |
 | Repositories     | http://192.168.33.3/aptly/public | http://localhost:9090/aptly/public |
+
+### Adding the slave
+
+In order to connect Jenkins to the slave two things need to be configured:
+The node and a set of credentials. They are currently not in puppet because
+we do not have a template for credentials yet. You will need to create a new
+ssh-credential with the username 'jenkins' and ~/.ssh as location for the key.
+
+When adding a node, set the following options:
+
+    Remote root directory: /home/jenkins
+    Launch method: Launch via ssh
+    Host: 192.168.33.81
+	Port: 2222
+    Credentials: /the credentials you created/
 
 ## License
 
