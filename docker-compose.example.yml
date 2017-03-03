@@ -1,0 +1,10 @@
+---
+slave:
+  build: docker/slave/
+  ports:
+    - '2244:22'
+  environment:
+    DOCKER_DAEMON_ARGS: --storage-driver overlay
+  privileged: true
+  volumes:
+    - /var/lib/docker
