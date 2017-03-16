@@ -91,6 +91,7 @@ icinga_build::pipeline:
   icinga2-snapshot:
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
+    release_type: snapshot
     matrix_deb:
       'debian-jessie': {}
       'debian-wheezy': {}
@@ -108,6 +109,7 @@ icinga_build::pipeline:
   icingaweb2-snapshot:
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
+    release_type: snapshot
     arch:
       - x86_64
     matrix_deb:
@@ -120,6 +122,31 @@ icinga_build::pipeline:
     matrix_rpm:
       'centos-6': {}
       'centos-7': {}
+
+  icingaweb2-release:
+    control_repo: https://github.com/Icinga/icinga-packaging.git
+    control_branch: release
+    release_type: release
+    arch:
+      - x86_64
+    matrix_deb:
+      'debian-jessie': {}
+    matrix_rpm:
+      'centos-6': {}
+      'centos-7': {}
+
+  icinga2-release:
+    control_repo: https://github.com/Icinga/icinga-packaging.git
+    control_branch: release
+    release_type: release
+    arch:
+      - x86_64
+    matrix_deb:
+      'debian-jessie': {}
+    matrix_rpm:
+      'centos-6': {}
+      'centos-7': {}
+
 
 jenkins::executors: 0
 
