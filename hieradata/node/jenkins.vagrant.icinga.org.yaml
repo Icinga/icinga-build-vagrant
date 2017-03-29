@@ -135,6 +135,19 @@ icinga_build::pipeline:
       'centos-6': {}
       'centos-7': {}
 
+  icingaweb2-dev:
+    control_repo: https://github.com/Icinga/icinga-packaging.git
+    control_branch: snapshot
+    release_type: dev
+    arch:
+      - x86_64
+    matrix_deb:
+      'debian-jessie': {}
+      'ubuntu-xenial': {}
+    matrix_rpm:
+      'centos-6': {}
+      'centos-7': {}
+
   icinga2-release:
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: release
