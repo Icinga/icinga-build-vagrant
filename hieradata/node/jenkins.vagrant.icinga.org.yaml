@@ -67,7 +67,17 @@ icinga_build::docker_job:
       - "12-sp2"
     base_image: "net-docker-registry.adm.netways.de:5000/netways/docker-images-bootstrap-xenial"
     jenkins_label: "docker-test"
-    combination_filter: '!((release=="12-sp1" || release=="12-sp2") && arch=="i386")'
+    combination_filter: '!((release=="12-sp1" || release=="12-sp2") && arch=="x86")'
+  opensuse-image:
+    archs:
+      - "x86"
+      - "x86_64"
+    releases:
+      - "13.2"
+      - "42.1"
+    base_image: "net-docker-registry.adm.netways.de:5000/netways/docker-images-bootstrap-xenial"
+    jenkins_label: "docker-test"
+    combination_filter: '!(release=="42.1" && arch =="x86")'
   ubuntu-image:
     archs:
       - "x86"
@@ -158,6 +168,35 @@ icinga_build::pipeline:
     matrix_rpm:
       'centos-6': {}
       'centos-7': {}
+
+  icinga2-dev:
+    control_repo: https://github.com/Icinga/icinga-packaging.git
+    control_branch: snapshot
+    release_type: dev
+    arch:
+      - x86_64
+      - x86
+    matrix_deb:
+      'debian-wheezy': {}
+      'debian-jessie': {}
+      #'debian-stretch': {}
+      'ubuntu-precise': {}
+      'ubuntu-trusty': {}
+      'ubuntu-xenial': {}
+      'ubuntu-yakkety': {}
+    matrix_rpm:
+      'centos-5': {}
+      'centos-6': {}
+      'centos-7': {}
+      'sles-11.4': {}
+      'sles-12.1': {}
+      'sles-12.2': {}
+      'opensuse-13.2': {}
+      'opensuse-42.1': {}
+      'fedora-24': {}
+      'fedora-25': {}
+      'debian-jessie': {}
+      'ubuntu-xenial': {}
 
   icinga2-release:
     control_repo: https://github.com/Icinga/icinga-packaging.git
