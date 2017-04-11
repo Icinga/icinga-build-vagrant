@@ -33,6 +33,14 @@ if [ "$OSTYPE" = "Debian" ]; then
         echo "deb http://httpredir.debian.org/debian ${CODENAME}-backports main" >"$bp"
         apt-get update
     fi
+
+    bpp="/etc/apt/sources.list.d/backports-puppet3.list"
+    if [ ! -e "${bpp}" ]; then
+        echo "Using backports snapshot for Puppet 3.8"
+        echo "deb http://snapshot.debian.org/archive/debian/20160504T101549Z/ jessie-backports main" \
+            > "${bpp}"
+        apt-get -o Acquire::Check-Valid-Until=false update
+    fi
 elif [ "$OSTYPE" = "Ubuntu" ]; then
     echo "Installing Puppetlabs release package..."
     wget -O /tmp/puppetlabs.deb "https://apt.puppetlabs.com/puppetlabs-release-${CODENAME}.deb"
@@ -46,11 +54,24 @@ elif [ "$OSTYPE" = "RedHat" ]; then
     fi
 fi
 
-echo "Installing puppet..."
 if [ "$OSTYPE" = "Debian" ]  || [ "$OSTYPE" = "Ubuntu" ]; then
-    apt-get install -y "puppet=3.8*" "puppet-common=3.8*"
+    if ! dpkg -l puppet &>/dev/null; then
+        echo "Installing puppet..."
+        apt-get install -y "puppet=3.8*" "puppet-common=3.8*"
+    fi
+
+    bpp="/etc/apt/sources.list.d/backports-puppet3.list"
+    if [ -e "${bpp}" ] && grep "^deb" "${bpp}"; then
+        echo "Disabling temporary snapshot repository..."
+        sed -i 's/^deb/#\0/' "${bpp}"
+        apt-get update
+    fi
+
 elif [ "$OSTYPE" = "RedHat" ]; then
-    yum install -y puppet
+    if ! rpm -q puppet &>/dev/null; then
+        echo "Installing puppet..."
+        yum install -y puppet
+    fi
 fi
 
 if [ "$OSTYPE" = "RedHat" ]; then
