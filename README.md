@@ -49,20 +49,27 @@ Apply changes in the Puppet or hiera data:
 
 ## Known Problems
 
+### Admin Password
+
+You can find the initial admin password of Jenkins at
+
+    /var/lib/jenkins/secrets/initialAdminPassword
+
 ### Creating Jobs
 
-Puppet will fail the first time when trying to create the build-jobs.
-This is because authorization for the anonymous user is currently missing,
-to work around this do the following:
+By default Jenkins enables integrated security for the server.
 
-* `vagrant ssh jenkins` and become root
-* Edit the `/var/lib/jenkins/config.xml` file
-* Set `useSecurity` to false
-* Remove the `authorizationStrategy` and `securityRealm` blocks
-* Save the file and restart Jenkins
-* Leave the machine and re-run `vagrant provision jenkins`
+So Puppet will fail creating any resources inside Jenkins.
+
+* Login to Jenkins with the admin password (`/var/lib/jenkins/secrets/initialAdminPassword`)
+* Go to Users and change the admin user
+* Add the SSH key of Jenkins' Home to the user (`/var/lib/jenkins/.ssh/id_rsa.pub`)
+
+If this is done you can configure the security to whatever you like.
+Just make sure admin is still allowed to manage things.
 
 ### Publishing Packages
+
 Aptly will fail to publish packages if there is no GPG key present. You need to generate one
 as user `root` and import the public key with `apt-key`.
 

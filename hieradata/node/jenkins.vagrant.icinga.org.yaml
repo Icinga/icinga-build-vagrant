@@ -8,9 +8,13 @@ java::package_options:
   - '-t'
   - 'jessie-backports'
 
-# TODO: this is not auto-set
+# TODO: this is not auto-set on Debian
 jenkins::cli::config::cli_jar: /usr/share/jenkins/jenkins-cli.jar
 jenkins::cli::config::puppet_helper: /usr/share/jenkins/puppet_helper.groovy
+
+jenkins::cli_ssh_keyfile: /var/lib/jenkins/.ssh/id_rsa
+# for type/provider:
+jenkins::cli::config::ssh_private_key: /var/lib/jenkins/.ssh/id_rsa
 
 icinga_build::pipeline::defaults::aptly_server: 'http://192.168.33.3'
 icinga_build::pipeline::defaults::aptly_user: 'icinga'
@@ -248,6 +252,10 @@ jenkins::credentials:
       UuZXJJk1VzqsRvry8keKKhbCUwf0nFcbUM85zL004DS2u3uc9GoULHhmhIG122sJ
       huiZIPGV0AI4JYqchmCtVfbIEw+PAlnK3qUMt6JrvjbiJ5aaBS2s
       -----END RSA PRIVATE KEY-----
+
+icinga_build::ssh_public_key: |
+  # INSECURE Icinga Slave Access key
+  ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtGIRhrYRnuzfENvBL/6YwwPIv4FVVLbHY70XpX8kUMK4oxFz9REwRK5pERNSqGOUAb66sVOLWCxgEAtfKsOxIA07OSGGzN9dlgOlNy/ud3qxbDo6RAiFHmP3eGDpA9uE0FiSMOoRqXaEG6lPFpfKta9JPOssh8rEvHQU8EAQbrYkPK8Rv6bZ3MYmTdOim1aV8HVSGmXMRtbCx/lVEpbfrnPJp/GbG1ewMXpOz9lr2YXJuhREoxcLflhlVACa7z4Ab5RxTXW71piyKV9x0X1tHb2KVbcD/byi+Sv89UwQU+ZHq3Og/57IOJcofSTWlpYlP1Fn95qrbPVzf4zVblRHR jenkins@icinga-build
 
 icinga_build::ssh_private_key: |
   -----BEGIN RSA PRIVATE KEY-----
