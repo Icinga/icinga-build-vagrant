@@ -1,0 +1,25 @@
+<h2>Archive Key</h2>
+<p style="font-size: 0.8em;"><code>
+rpm --import http://packages.icinga.com/icinga.key</code></p>
+</p>
+
+<h2>Release Builds</h2>
+
+<p style="font-size: 0.8em;"><code>
+zypper ar http://packages.icinga.com/SUSE/ICINGA-release.repo<br/>
+zypper ref
+</code></p>
+</p>
+
+<h2>Snapshot Builds</h2>
+
+<p style="font-weight: bold; color: red;">
+WARNING: These are auto-built packages, based on current development trees.<br/>
+Made only for testing purposes, you should not use them in production environments!
+</p>
+
+<p style="font-size: 0.8em;"><code>
+zypper ar http://packages.icinga.com/SUSE/ICINGA-snapshot.repo<br/>
+zypper ref
+</code></p>
+</p>

@@ -1,0 +1,136 @@
+---
+classes:
+  - apache
+  - apache::mod::proxy
+  - apache::mod::proxy_http
+  - aptly
+  - aptly::api
+
+package:
+  ruby2.0:
+    ensure: present
+  rpm:
+    ensure: present
+  syslog-logger:
+    ensure: present
+    provider: gem
+  gnupg2:
+    ensure: present
+
+aptly::config:
+  rootDir: /var/www/html/aptly
+  downloadSourcePackages: true
+
+aptly::aptly_repos:
+  icinga-debian-wheezy-snapshot:
+    comment: 'Icinga 2 Debian wheezy snapshots'
+  icinga-debian-jessie-snapshot:
+    comment: 'Icinga 2 Debian jessie snapshots'
+  icinga-ubuntu-precise-snapshot:
+    comment: 'Icinga 2 Ubuntu precise snapshots'
+  icinga-ubuntu-trusty-snapshot:
+    comment: 'Icinga 2 Ubuntu trusty snapshots'
+  icinga-ubuntu-wily-snapshot:
+    comment: 'Icinga 2 Ubuntu wily snapshots'
+  icinga-ubuntu-xenial-snapshot:
+    comment: 'Icinga 2 Ubuntu xenial snapshots'
+  icinga-debian-wheezy-giraffe:
+    comment: 'Icinga 2 Debian wheezy giraffe test builds'
+  icinga-debian-jessie-giraffe:
+    comment: 'Icinga 2 Debian jessie giraffe test builds'
+  icinga-ubuntu-precise-giraffe:
+    comment: 'Icinga 2 Ubuntu precise giraffe test builds'
+  icinga-ubuntu-trusty-giraffe:
+    comment: 'Icinga 2 Ubuntu trusty giraffe test builds'
+  icinga-ubuntu-wily-giraffe:
+    comment: 'Icinga 2 Ubuntu wily giraffe test builds'
+  icinga-ubuntu-xenial-giraffe:
+    comment: 'Icinga 2 Ubuntu xenial giraffe test builds'
+  icinga-debian-wheezy-release:
+    comment: 'Icinga 2 Debian wheezy releases'
+  icinga-debian-jessie-release:
+    comment: 'Icinga 2 Debian jessie releases'
+  icinga-ubuntu-precise-release:
+    comment: 'Icinga 2 Ubuntu precise releases'
+  icinga-ubuntu-trusty-release:
+    comment: 'Icinga 2 Ubuntu trusty releases'
+  icinga-ubuntu-wily-release:
+    comment: 'Icinga 2 Ubuntu wily releases'
+  icinga-ubuntu-xenial-release:
+    comment: 'Icinga 2 Ubuntu xenial releases'
+    notify: 'Service[aptly-api]'
+
+aptly::api::listen: "0.0.0.0:8080"
+aptly::api::enable_cli_and_http: true
+
+
+file:
+  /usr/local/bin/aptly-cleanup-snapshots.sh:
+    ensure: file
+    mode: '0770'
+    source: '/vagrant/files/aptly/usr/local/bin/aptly-cleanup-snapshots.sh'
+  /usr/local/bin/update-rpms.rb:
+    ensure: file
+    mode: '0770'
+    source: '/vagrant/files/aptly/usr/local/bin/update-rpms.rb'
+  /var/www/html/aptly/public:
+    ensure: directory
+    recurse: true
+    recurselimit: 2
+    source: '/vagrant/files/aptly/var/www/html/aptly/public'
+    require: ['Class[apache]', 'Class[aptly]']
+  /var/www/html/aptly/public/epel/5Server:
+    ensure: link
+    target: '5'
+  /var/www/html/aptly/public/epel/6Server:
+    ensure: link
+    target: '6'
+  /var/www/html/aptly/public/epel/7Server:
+    ensure: link
+    target: '7'
+  /var/www/html/aptly/public/SUSE/11:
+    ensure: link
+    target: 'sles11-sp4'
+  /var/www/html/aptly/public/SUSE/12:
+    ensure: link
+    target: 'sles12-sp2'
+  /var/www/html/aptly/public/SUSE/11.4:
+    ensure: link
+    target: 'sles11-sp4'
+  /var/www/html/aptly/public/SUSE/12.2:
+    ensure: link
+    target: 'sles12-sp2'
+  /var/www/html/aptly/public/SUSE/sles11-sp4:
+    ensure: directory
+  /var/www/html/aptly/public/SUSE/sles12-sp2:
+    ensure: directory
+  /etc/apache2/aptly-api-auth:
+    ensure: present
+    content: 'icinga:$apr1$4SAOEDzD$0mZ44nzJ8w.ygKoWb.SYQ0'
+    require: 'Class[apache]'
+
+cron:
+  update-rpms:
+    ensure : "present"
+    user : 'root'
+    command : '/usr/local/bin/update-rpms.rb > /dev/null'
+    minute : '*'
+  aptly-cleanup-snapshots:
+    ensure : "present"
+    user : 'root'
+    command : '/usr/local/bin/aptly-cleanup-snapshots.sh > /dev/null'
+    minute : '0'
+    hour : '*'
+
+apache::custom_config:
+  api-authentication:
+    content: |
+      <Location "/api/">
+        AuthType Basic
+        AuthName "Aptly API"
+        AuthBasicProvider file
+        AuthUserFile /etc/apache2/aptly-api-auth
+        Require user icinga
+        ProxyPass  http://127.0.0.1:8080/api/
+        ProxyPassReverse http://127.0.0.1:8080/api/
+      </Location>

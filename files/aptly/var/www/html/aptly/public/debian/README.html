@@ -1,0 +1,59 @@
+<h2>Archive Key</h2>
+<p style="font-size: 0.8em;"><code>
+wget -O - http://packages.icinga.com/icinga.key | apt-key add -</code></p>
+</p>
+
+<h2>Debian Backports</h2>
+
+Please make sure to enable the <a href="http://backports.debian.org/Instructions/">Debian Backports</a> repository.
+Some of the packages in this repository depend on packages which are only available as part of the Debian Backports repository.
+
+<h2>Release Builds</h2>
+
+<p>
+<strong>icinga-jessie</strong>
+<a href="dists/icinga-jessie/main/binary-i386/Packages">i386</a>
+<a href="dists/icinga-jessie/main/binary-amd64/Packages">amd64</a><br/>
+</p>
+<p style="font-size: 0.8em;"><code>
+deb http://packages.icinga.com/debian icinga-jessie main<br/>
+deb-src http://packages.icinga.com/debian icinga-jessie main
+</code></p>
+
+<p>
+<strong>icinga-wheezy</strong>
+<a href="dists/icinga-wheezy/main/binary-i386/Packages">i386</a>
+<a href="dists/icinga-wheezy/main/binary-amd64/Packages">amd64</a><br/>
+</p>
+<p style="font-size: 0.8em;"><code>
+deb http://packages.icinga.com/debian icinga-wheezy main<br/>
+deb-src http://packages.icinga.com/debian icinga-wheezy main
+</code></p>
+
+<h2>Snapshot Builds</h2>
+
+<p style="font-weight: bold; color: red;">
+These are snapshot builds which are not suitable for production use. If you're setting up a production system
+please use the release packages instead.
+</p>
+
+<p>
+<strong>icinga-jessie-snapshots</strong>
+<a href="dists/icinga-jessie-snapshots/main/binary-i386/Packages">i386</a>
+<a href="dists/icinga-jessie-snapshots/main/binary-amd64/Packages">amd64</a><br/>
+</p>
+<p style="font-size: 0.8em;"><code>
+deb http://packages.icinga.com/debian icinga-jessie-snapshots main<br/>
+deb-src http://packages.icinga.com/debian icinga-jessie-snapshots main
+</code></p>
+
+<p>
+<strong>icinga-wheezy-snapshots</strong>
+<a href="dists/icinga-wheezy-snapshots/main/binary-i386/Packages">i386</a>
+<a href="dists/icinga-wheezy-snapshots/main/binary-amd64/Packages">amd64</a><br/>
+</p>
+<p style="font-size: 0.8em;"><code>
+deb http://packages.icinga.com/debian icinga-wheezy-snapshots main<br/>
+deb-src http://packages.icinga.com/debian icinga-wheezy-snapshots main
+</code></p>
+

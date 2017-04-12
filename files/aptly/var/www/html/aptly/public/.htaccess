@@ -1,0 +1,3 @@
+Options +Indexes
+IndexIgnore HEADER.html README.html style.css res favicon.ico sles_dvds
+IndexOptions FancyIndexing VersionSort HTMLTable NameWidth=* Charset=UTF-8 SuppressDescription FoldersFirst
