@@ -17,9 +17,36 @@ package:
   gnupg2:
     ensure: present
 
+# System user for running aptly daemon
+user:
+  aptly:
+    ensure: present
+    managehome: true
+    system: true
+    home: /var/www/html/aptly
+    gid: aptly
+    shell: /bin/false
+
+group:
+  aptly:
+    ensure: present
+    system: true
+
+exec:
+  aptly-chown-files:
+    command: 'chown -R aptly.aptly /var/www/html/aptly'
+    onlyif: 'test `stat -c %U /var/www/html/aptly` = root'
+    path: '/usr/sbin:/usr/bin:/sbin:/bin'
+    require: User[aptly]
+    before: Class[aptly]
+
+aptly::user: aptly
 aptly::config:
   rootDir: /var/www/html/aptly
   downloadSourcePackages: true
+
+aptly::api::user: aptly
+aptly::api::group: aptly
 
 aptly::aptly_repos:
   icinga-debian-wheezy-snapshot:
@@ -77,6 +104,8 @@ file:
     ensure: directory
     recurse: true
     recurselimit: 2
+    owner: aptly
+    group: aptly
     source: '/vagrant/files/aptly/var/www/html/aptly/public'
     require: ['Class[apache]', 'Class[aptly]']
   /var/www/html/aptly/public/epel/5Server:
@@ -102,8 +131,12 @@ file:
     target: 'sles12-sp2'
   /var/www/html/aptly/public/SUSE/sles11-sp4:
     ensure: directory
+    owner: aptly
+    group: aptly
   /var/www/html/aptly/public/SUSE/sles12-sp2:
     ensure: directory
+    owner: aptly
+    group: aptly
   /etc/apache2/aptly-api-auth:
     ensure: present
     content: 'icinga:$apr1$4SAOEDzD$0mZ44nzJ8w.ygKoWb.SYQ0'
@@ -111,16 +144,22 @@ file:
 
 cron:
   update-rpms:
-    ensure : "present"
-    user : 'root'
-    command : '/usr/local/bin/update-rpms.rb > /dev/null'
-    minute : '*'
+    ensure: absent
+    user: root
+  aptly-update-rpms:
+    ensure: present
+    user: aptly
+    command: '/usr/local/bin/update-rpms.rb > /dev/null'
+    minute: '*'
   aptly-cleanup-snapshots:
-    ensure : "present"
-    user : 'root'
-    command : '/usr/local/bin/aptly-cleanup-snapshots.sh > /dev/null'
-    minute : '0'
-    hour : '*'
+    ensure: absent
+    user: root
+  aptly-cleanup-snapshots2:
+    ensure: present
+    user: aptly
+    command: '/usr/local/bin/aptly-cleanup-snapshots.sh > /dev/null'
+    minute: '0'
+    hour: '*'
 
 apache::custom_config:
   api-authentication:
