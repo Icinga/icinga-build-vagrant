@@ -42,11 +42,13 @@ if [ "$OSTYPE" = "Debian" ]; then
         apt-get -o Acquire::Check-Valid-Until=false update
     fi
 elif [ "$OSTYPE" = "Ubuntu" ]; then
-    echo "Installing Puppetlabs release package..."
-    wget -O /tmp/puppetlabs.deb "https://apt.puppetlabs.com/puppetlabs-release-${CODENAME}.deb"
-    dpkg -i /tmp/puppetlabs.deb
-    rm -f /tmp/puppetlabs.deb
-    apt-get update
+    if [ ! -e /etc/apt/sources.list.d/puppetlabs.list ]; then
+        echo "Installing Puppetlabs release package..."
+        wget -O /tmp/puppetlabs.deb "https://apt.puppetlabs.com/puppetlabs-release-${CODENAME}.deb"
+        dpkg -i /tmp/puppetlabs.deb
+        rm -f /tmp/puppetlabs.deb
+        apt-get update
+    fi
 elif [ "$OSTYPE" = "RedHat" ]; then
     if [ ! -e /etc/yum.repos.d/puppetlabs.repo ]; then
         echo "Installing Puppet 3 release..."
