@@ -325,7 +325,7 @@ jenkins::plugin:
   #credentials:
   #  version: '2.1.13'
   display-url-api:
-    version: '1.1.1'
+    version: '2.0'
   docker-commons:
     version: '1.6'
   docker-custom-build-environment:
@@ -343,7 +343,7 @@ jenkins::plugin:
   git-client:
     version: '2.4.1'
   github:
-    version: '1.26.2'
+    version: '1.27.0'
   github-api:
     version: '1.85'
   icon-shim:
@@ -358,6 +358,8 @@ jenkins::plugin:
     version: '1.14'
   mailer:
     version: '1.20'
+  mask-passwords:
+    version: '2.10.1'
   matrix-auth:
     version: '1.5'
   matrix-project:
@@ -389,7 +391,7 @@ jenkins::plugin:
   ssh-credentials:
     version: '1.13'
   ssh-slaves:
-    version: '1.16'
+    version: '1.17'
   structs:
     version: '1.6'
   template-project:
@@ -401,7 +403,7 @@ jenkins::plugin:
   windows-slaves:
     version: '1.3.1'
   workflow-api:
-    version: '2.12'
+    version: '2.13'
   workflow-basic-steps:
     version: '2.4'
   workflow-scm-step:
