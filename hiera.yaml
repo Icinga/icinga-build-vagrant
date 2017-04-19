@@ -8,3 +8,4 @@
   - "os/%{::operatingsystem}"
   - "os/%{::osfamily}"
   - common
+  - secrets
