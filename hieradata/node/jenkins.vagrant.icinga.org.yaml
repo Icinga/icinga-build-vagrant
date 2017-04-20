@@ -19,26 +19,24 @@ jenkins::cli::config::ssh_private_key: /var/lib/jenkins/.ssh/id_rsa
 icinga_build::pipeline::defaults::aptly_server: 'http://192.168.33.3'
 icinga_build::pipeline::defaults::aptly_user: 'icinga'
 icinga_build::pipeline::defaults::aptly_password: 'supersecret'
-icinga_build::pipeline::defaults::docker_image: 'net-docker-registry.adm.netways.de:5000/netways/{os}-{dist}-{arch}'
+#icinga_build::pipeline::defaults::docker_image: 'net-docker-registry.adm.netways.de:5000/netways/{os}-{dist}-{arch}'
+icinga_build::pipeline::defaults::docker_image: 'netways/{os}-{dist}-{arch}'
 icinga_build::pipeline::defaults::jenkins_label: 'docker-test'
 icinga_build::pipeline::defaults::arch:
   - x86_64
   - x86
+icinga_build::pipeline::defaults::view_default: Grouped
 icinga_build::pipeline::defaults::views_hash:
-  Deb:
-    include_regex: '^deb-.*'
+  Grouped:
+    include_regex: '^\w+-.*'
     grouping_rules:
-      - regex: '^deb-([\w\d_\.]+)-([\w\d_\.]+)'
-        name: '$1 $2'
-  RPM:
-    include_regex: '^rpm-.*'
-    grouping_rules:
-      - regex: '^rpm-([\w\d_\.]+)-([\w\d_\.]+)'
+      - regex: '^\w+-([\w\d_\.]+)-([\w\d_\.]+)'
         name: '$1 $2'
 
-icinga_build::folder:
-  docker:
-    description: ""
+icinga_build::docker_job::defaults::jenkins_label: 'docker-test'
+icinga_build::docker_job::defaults::base_image: 'net-docker-registry.adm.netways.de:5000/netways/docker-images-bootstrap-xenial'
+#icinga_build::docker_job::defaults::docker_registry: 'net-docker-registry.adm.netways.de:5000'
+icinga_build::docker_job::defaults::publish: false
 
 icinga_build::docker_job:
   centos-image:
@@ -49,8 +47,6 @@ icinga_build::docker_job:
       - "5"
       - "6"
       - "7"
-    base_image: "net-docker-registry.adm.netways.de:5000/netways/docker-images-bootstrap-xenial"
-    jenkins_label: "docker-test"
     combination_filter: '!(release=="7" && arch=="x86")'
   fedora-image:
     archs:
@@ -59,19 +55,23 @@ icinga_build::docker_job:
     releases:
       - "24"
       - "25"
-    base_image: "net-docker-registry.adm.netways.de:5000/netways/docker-images-bootstrap-xenial"
-    jenkins_label: "docker-test"
   sles-image:
     archs:
       - "x86"
       - "x86_64"
     releases:
-      - "11-sp4"
-      - "12-sp1"
-      - "12-sp2"
-    base_image: "net-docker-registry.adm.netways.de:5000/netways/docker-images-bootstrap-xenial"
-    jenkins_label: "docker-test"
-    combination_filter: '!((release=="12-sp1" || release=="12-sp2") && arch=="x86")'
+      - "11.4"
+      - "12.1"
+      - "12.2"
+    combination_filter: '!(release=~/^12/ && arch=="x86")'
+    parameters:
+      # Note: we have to use a private mirror to build SLES images
+      # The images itself are private too, copyright reasons
+      SLES_MIRROR: "%{hiera('icinga_build::docker::sles_mirror')}"
+      SLES_MIRROR_USERNAME: "%{hiera('icinga_build::docker::sles_mirror_username')}"
+      SLES_MIRROR_PASSWORD:
+        type: Password
+        default: "%{hiera('icinga_build::docker::sles_mirror_password')}"
   opensuse-image:
     archs:
       - "x86"
@@ -79,9 +79,9 @@ icinga_build::docker_job:
     releases:
       - "13.2"
       - "42.1"
-    base_image: "net-docker-registry.adm.netways.de:5000/netways/docker-images-bootstrap-xenial"
-    jenkins_label: "docker-test"
-    combination_filter: '!(release=="42.1" && arch =="x86")'
+      - "42.2"
+      - "42.3"
+    combination_filter: '!(release!="13.2" && arch =="x86")'
   ubuntu-image:
     archs:
       - "x86"
@@ -91,8 +91,6 @@ icinga_build::docker_job:
       - "trusty"
       - "xenial"
       - "yakkety"
-    base_image: "net-docker-registry.adm.netways.de:5000/netways/docker-images-bootstrap-xenial"
-    jenkins_label: "docker-test"
   debian-image:
     archs:
       - "x86"
@@ -100,8 +98,6 @@ icinga_build::docker_job:
     releases:
       - "wheezy"
       - "jessie"
-    base_image: "net-docker-registry.adm.netways.de:5000/netways/docker-images-bootstrap-xenial"
-    jenkins_label: "docker-test"
 
 icinga_build::pipeline:
   icinga2-snapshot:
@@ -116,12 +112,22 @@ icinga_build::pipeline:
       'ubuntu-trusty':
         use: ubuntu
     matrix_rpm:
+      'centos-5':
+        use_epel: true
       'centos-6':
         use_epel: true
       'centos-7':
         use_epel: true
         arch:
           - x86_64
+      'sles-11.4': {}
+      'sles-12.1': {}
+      'sles-12.2': {}
+      'opensuse-13.2': {}
+      'opensuse-42.1': {}
+      'fedora-24': {}
+      'fedora-25': {}
+
   icingaweb2-snapshot:
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
