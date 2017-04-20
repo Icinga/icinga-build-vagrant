@@ -14,3 +14,10 @@ desc 'Clean deployed Puppet code'
 task :clean do
   FileUtils.rm_rf('vagrant/modules/')
 end
+
+require 'yamllint/rake_task'
+YamlLint::RakeTask.new do |t|
+  t.paths = %w(
+    hieradata/**/*.yaml
+  )
+end
