@@ -11,3 +11,6 @@
 [._]*.s[a-w][a-z]
 /.idea/
 *~
+
+## Docker
+/docker-compose.yml
