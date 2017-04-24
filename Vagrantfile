@@ -1,11 +1,13 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+VAGRANT_REQUIRED_LINKED_CLONE_VERSION = "1.8.0"
+
 def setup_puppet_vm(config)
   config.vm.provider 'virtualbox' do |vb|
     vb.cpus = 2
     vb.memory = '1024'
-    vb.linked_clone = true if Vagrant::VERSION =~ /^1.8/
+    vb.linked_clone = true if Gem::Version.new(Vagrant::VERSION) >= Gem::Version.new(VAGRANT_REQUIRED_LINKED_CLONE_VERSION)
     config.vm.synced_folder '.', '/vagrant', :type => 'virtualbox' # avoid rsync
   end
 
