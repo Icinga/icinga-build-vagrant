@@ -222,8 +222,12 @@ icinga_build::pipeline:
       'opensuse-42.1': {}
       'fedora-24': {}
       'fedora-25': {}
-      'debian-jessie': {}
-      'ubuntu-xenial': {}
+      'debian-jessie':
+        # TODO: please kill me :)
+        ensure: absent
+      'ubuntu-xenial':
+        # TODO: please kill me :)
+        ensure: absent
 
   icinga2-release:
     control_repo: https://github.com/Icinga/icinga-packaging.git
