@@ -3,9 +3,10 @@
 :yaml:
   :datadir: /vagrant/hieradata
 :hierarchy:
+  - "secrets/%{::fqdn}"
   - "node/%{::fqdn}"
   - "os/%{::operatingsystem}-%{::operatingsystemmajrelease}"
   - "os/%{::operatingsystem}"
   - "os/%{::osfamily}"
-  - common
   - secrets
+  - common
