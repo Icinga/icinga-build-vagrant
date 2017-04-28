@@ -93,6 +93,7 @@ icinga_build::docker_job:
       - "trusty"
       - "xenial"
       - "yakkety"
+      - "zesty"
   debian-image:
     archs:
       - "x86"
@@ -114,6 +115,8 @@ icinga_build::pipeline:
       'ubuntu-trusty':
         use: ubuntu
       'ubuntu-yakkety':
+        use: ubuntu
+      'ubuntu-zesty':
         use: ubuntu
     matrix_rpm:
       'centos-5': {}
@@ -155,6 +158,8 @@ icinga_build::pipeline:
       'ubuntu-trusty': {}
       'ubuntu-xenial': {}
       'ubuntu-yakkety':
+        use: 'xenial'
+      'ubuntu-zesty':
         use: 'xenial'
     matrix_rpm:
       'centos-5':
