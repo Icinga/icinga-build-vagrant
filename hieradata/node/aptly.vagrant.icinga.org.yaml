@@ -61,6 +61,8 @@ aptly::aptly_repos:
     comment: 'Icinga 2 Ubuntu wily snapshots'
   icinga-ubuntu-xenial-snapshot:
     comment: 'Icinga 2 Ubuntu xenial snapshots'
+  icinga-ubuntu-zesty-snapshot:
+    comment: 'Icinga 2 Ubuntu zesty snapshots'
   icinga-debian-wheezy-giraffe:
     comment: 'Icinga 2 Debian wheezy giraffe test builds'
   icinga-debian-jessie-giraffe:
@@ -73,6 +75,8 @@ aptly::aptly_repos:
     comment: 'Icinga 2 Ubuntu wily giraffe test builds'
   icinga-ubuntu-xenial-giraffe:
     comment: 'Icinga 2 Ubuntu xenial giraffe test builds'
+  icinga-ubuntu-zesty-giraffe:
+    comment: 'Icinga 2 Ubuntu zesty giraffe test builds'
   icinga-debian-wheezy-release:
     comment: 'Icinga 2 Debian wheezy releases'
   icinga-debian-jessie-release:
@@ -85,6 +89,8 @@ aptly::aptly_repos:
     comment: 'Icinga 2 Ubuntu wily releases'
   icinga-ubuntu-xenial-release:
     comment: 'Icinga 2 Ubuntu xenial releases'
+  icinga-ubuntu-zesty-release:
+    comment: 'Icinga 2 Ubuntu zesty releases'
     notify: 'Service[aptly-api]'
 
 aptly::api::listen: "0.0.0.0:8080"
