@@ -161,6 +161,8 @@ cron:
     minute: '0'
     hour: '*'
 
+apache::docroot: /var/www/html/aptly/public
+
 apache::custom_config:
   api-authentication:
     content: |
