@@ -16,6 +16,7 @@ package:
     provider: gem
   gnupg2:
     ensure: present
+  createrepo: {}
 
 # System user for running aptly daemon
 user:
@@ -89,6 +90,8 @@ aptly::aptly_repos:
     comment: 'Icinga 2 Ubuntu wily releases'
   icinga-ubuntu-xenial-release:
     comment: 'Icinga 2 Ubuntu xenial releases'
+  icinga-ubuntu-yakkety-release:
+    comment: 'Icinga 2 Ubuntu yakkety releases'
   icinga-ubuntu-zesty-release:
     comment: 'Icinga 2 Ubuntu zesty releases'
     notify: 'Service[aptly-api]'
@@ -100,11 +103,15 @@ aptly::api::enable_cli_and_http: true
 file:
   /usr/local/bin/aptly-cleanup-snapshots.sh:
     ensure: file
-    mode: '0770'
+    mode: '0755'
+    owner: root
+    group: root
     source: '/vagrant/files/aptly/usr/local/bin/aptly-cleanup-snapshots.sh'
   /usr/local/bin/update-rpms.rb:
     ensure: file
-    mode: '0770'
+    mode: '0755'
+    owner: root
+    group: root
     source: '/vagrant/files/aptly/usr/local/bin/update-rpms.rb'
   /var/www/html/aptly/public:
     ensure: directory
