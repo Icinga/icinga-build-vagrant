@@ -4,7 +4,7 @@ classes:
   - icinga_build
 
 java::package: openjdk-8-jdk
-java::package_options: 
+java::package_options:
   - '-t'
   - 'jessie-backports'
 
@@ -16,7 +16,7 @@ jenkins::cli_ssh_keyfile: /var/lib/jenkins/.ssh/id_rsa
 # for type/provider:
 jenkins::cli::config::ssh_private_key: /var/lib/jenkins/.ssh/id_rsa
 
-icinga_build::pipeline::defaults::aptly_server: 'http://192.168.33.3'
+icinga_build::pipeline::defaults::aptly_server: 'http://192.168.33.3/api'
 icinga_build::pipeline::defaults::aptly_user: 'icinga'
 icinga_build::pipeline::defaults::aptly_password: 'supersecret'
 #icinga_build::pipeline::defaults::docker_image: 'net-docker-registry.adm.netways.de:5000/netways/{os}-{dist}-{arch}'
