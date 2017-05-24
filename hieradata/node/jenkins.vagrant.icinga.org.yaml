@@ -144,6 +144,49 @@ icinga_build::pipeline:
       'fedora-24': {}
       'fedora-25': {}
 
+  icinga2-release:
+    control_repo: https://github.com/Icinga/icinga-packaging.git
+    control_branch: release
+    release_type: release
+    arch:
+      - x86_64
+    matrix_deb:
+      'debian-jessie': {}
+      'debian-wheezy': {}
+      'ubuntu-xenial':
+        use: ubuntu
+      'ubuntu-trusty':
+        use: ubuntu
+      'ubuntu-yakkety':
+        use: ubuntu
+      'ubuntu-zesty':
+        use: ubuntu
+    matrix_rpm:
+      'centos-5': {}
+      'centos-6': {}
+      'centos-7':
+        arch:
+          - x86_64
+      'sles-11.4': {}
+      'sles-12.1':
+        arch:
+          - x86_64
+      'sles-12.2':
+        arch:
+          - x86_64
+      'opensuse-13.2': {}
+      'opensuse-42.1':
+        arch:
+          - x86_64
+      'opensuse-42.2':
+        arch:
+          - x86_64
+      'opensuse-42.3':
+        arch:
+          - x86_64
+      'fedora-24': {}
+      'fedora-25': {}
+
   icingaweb2-snapshot:
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
@@ -183,10 +226,30 @@ icinga_build::pipeline:
     arch:
       - x86_64
     matrix_deb:
+      'debian-wheezy': {}
       'debian-jessie': {}
+      #'debian-stretch': {}
+      'ubuntu-precise': {}
+      'ubuntu-trusty': {}
+      'ubuntu-xenial': {}
+      'ubuntu-yakkety':
+        use: 'xenial'
+      'ubuntu-zesty':
+        use: 'xenial'
     matrix_rpm:
+      'centos-5':
+        ensure: absent
       'centos-6': {}
       'centos-7': {}
+      'sles-11.4': {}
+      'sles-12.1': {}
+      'sles-12.2': {}
+      'opensuse-13.2': {}
+      'opensuse-42.1': {}
+      'opensuse-42.2': {}
+      'opensuse-42.3': {}
+      'fedora-24': {}
+      'fedora-25': {}
 
   icingaweb2-dev:
     control_repo: https://github.com/Icinga/icinga-packaging.git
@@ -233,18 +296,6 @@ icinga_build::pipeline:
       'ubuntu-xenial':
         # TODO: please kill me :)
         ensure: absent
-
-  icinga2-release:
-    control_repo: https://github.com/Icinga/icinga-packaging.git
-    control_branch: release
-    release_type: release
-    arch:
-      - x86_64
-    matrix_deb:
-      'debian-jessie': {}
-    matrix_rpm:
-      'centos-6': {}
-      'centos-7': {}
 
 
 jenkins::executors: 0
