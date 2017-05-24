@@ -12,4 +12,5 @@ node default {
   create_resources('file', hiera_hash('file', {}))
   create_resources('cron', hiera_hash('cron', {}))
   create_resources('apache::custom_config', hiera_hash('apache::custom_config', {}))
+  create_resources('jenkins::plugin', hiera_hash('jenkins::plugin', {}))
 }
