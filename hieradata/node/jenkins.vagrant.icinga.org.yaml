@@ -3,6 +3,24 @@ classes:
   - apt
   - icinga_build
 
+jenkins::repo: false
+apt::source:
+  jenkins:
+    location: 'http://pkg.jenkins-ci.org/debian-stable'
+    repos: ''
+    key: 'D50582E6'
+    key_source: 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key'
+    release: "binary/"
+    include_src: false
+    before: Class[jenkins]
+
+#apt::pin:
+#  'jenkins':
+#    packages: '*'
+#    originator: 'jenkins.io'
+#    priority: 50
+
+
 java::package: openjdk-8-jdk
 java::package_options:
   - '-t'
