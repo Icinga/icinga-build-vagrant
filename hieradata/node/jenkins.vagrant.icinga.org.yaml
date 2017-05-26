@@ -91,13 +91,10 @@ icinga_build::docker_job:
         default: "%{hiera('icinga_build::docker::sles_mirror_password')}"
   opensuse-image:
     archs:
-      - "x86"
       - "x86_64"
     releases:
-      - "13.2"
       - "42.2"
       - "42.3"
-    combination_filter: '!(release!="13.2" && arch =="x86")'
     parameters:
       OPENSUSE_MIRROR: 'http://ftp.uni-kl.de/pub/linux/opensuse/distribution'
   ubuntu-image:
@@ -148,7 +145,8 @@ icinga_build::pipeline:
       'sles-12.2':
         arch:
           - x86_64
-      'opensuse-13.2': {}
+      'opensuse-13.2':
+        ensure: absent
       'opensuse-42.1':
         ensure: absent
       'opensuse-42.2':
@@ -191,7 +189,8 @@ icinga_build::pipeline:
       'sles-12.2':
         arch:
           - x86_64
-      'opensuse-13.2': {}
+      'opensuse-13.2':
+        ensure: absent
       'opensuse-42.1':
         ensure: absent
       'opensuse-42.2':
@@ -228,7 +227,8 @@ icinga_build::pipeline:
       'sles-11.4': {}
       'sles-12.1': {}
       'sles-12.2': {}
-      'opensuse-13.2': {}
+      'opensuse-13.2':
+        ensure: absent
       'opensuse-42.1':
         ensure: absent
       'opensuse-42.2': {}
@@ -261,7 +261,8 @@ icinga_build::pipeline:
       'sles-11.4': {}
       'sles-12.1': {}
       'sles-12.2': {}
-      'opensuse-13.2': {}
+      'opensuse-13.2':
+        ensure: absent
       'opensuse-42.1':
         ensure: absent
       'opensuse-42.2': {}
@@ -305,7 +306,8 @@ icinga_build::pipeline:
       'sles-11.4': {}
       'sles-12.1': {}
       'sles-12.2': {}
-      'opensuse-13.2': {}
+      'opensuse-13.2':
+        ensure: absent
       'opensuse-42.1':
         ensure: absent
       'fedora-24': {}
