@@ -62,7 +62,6 @@ icinga_build::docker_job:
       - "x86"
       - "x86_64"
     releases:
-      - "5"
       - "6"
       - "7"
     combination_filter: '!(release=="7" && arch=="x86")'
@@ -96,7 +95,6 @@ icinga_build::docker_job:
       - "x86_64"
     releases:
       - "13.2"
-      - "42.1"
       - "42.2"
       - "42.3"
     combination_filter: '!(release!="13.2" && arch =="x86")'
@@ -137,7 +135,8 @@ icinga_build::pipeline:
       'ubuntu-zesty':
         use: ubuntu
     matrix_rpm:
-      'centos-5': {}
+      'centos-5':
+        ensure: absent
       'centos-6': {}
       'centos-7':
         arch:
@@ -151,8 +150,7 @@ icinga_build::pipeline:
           - x86_64
       'opensuse-13.2': {}
       'opensuse-42.1':
-        arch:
-          - x86_64
+        ensure: absent
       'opensuse-42.2':
         arch:
           - x86_64
@@ -180,7 +178,8 @@ icinga_build::pipeline:
       'ubuntu-zesty':
         use: ubuntu
     matrix_rpm:
-      'centos-5': {}
+      'centos-5':
+        ensure: absent
       'centos-6': {}
       'centos-7':
         arch:
@@ -194,8 +193,7 @@ icinga_build::pipeline:
           - x86_64
       'opensuse-13.2': {}
       'opensuse-42.1':
-        arch:
-          - x86_64
+        ensure: absent
       'opensuse-42.2':
         arch:
           - x86_64
@@ -231,7 +229,8 @@ icinga_build::pipeline:
       'sles-12.1': {}
       'sles-12.2': {}
       'opensuse-13.2': {}
-      'opensuse-42.1': {}
+      'opensuse-42.1':
+        ensure: absent
       'opensuse-42.2': {}
       'opensuse-42.3': {}
       'fedora-24': {}
@@ -263,7 +262,8 @@ icinga_build::pipeline:
       'sles-12.1': {}
       'sles-12.2': {}
       'opensuse-13.2': {}
-      'opensuse-42.1': {}
+      'opensuse-42.1':
+        ensure: absent
       'opensuse-42.2': {}
       'opensuse-42.3': {}
       'fedora-24': {}
@@ -298,14 +298,16 @@ icinga_build::pipeline:
       'ubuntu-xenial': {}
       'ubuntu-yakkety': {}
     matrix_rpm:
-      'centos-5': {}
+      'centos-5':
+        ensure: absent
       'centos-6': {}
       'centos-7': {}
       'sles-11.4': {}
       'sles-12.1': {}
       'sles-12.2': {}
       'opensuse-13.2': {}
-      'opensuse-42.1': {}
+      'opensuse-42.1':
+        ensure: absent
       'fedora-24': {}
       'fedora-25': {}
       'debian-jessie':
