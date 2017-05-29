@@ -121,6 +121,18 @@ file:
     group: aptly
     source: '/vagrant/files/aptly/var/www/html/aptly/public'
     require: ['Class[apache]', 'Class[aptly]']
+  /var/www/html/aptly/public/SUSE/HEADER.html:
+    ensure: absent
+  /var/www/html/aptly/public/openSUSE/HEADER.html:
+    ensure: absent
+  /var/www/html/aptly/public/debian/HEADER.html:
+    ensure: absent
+  /var/www/html/aptly/public/ubuntu/HEADER.html:
+    ensure: absent
+  /var/www/html/aptly/public/fedora/HEADER.html:
+    ensure: absent
+  /var/www/html/aptly/public/epel/HEADER.html:
+    ensure: absent
   /var/www/html/aptly/public/epel/5Server:
     ensure: link
     target: '5'

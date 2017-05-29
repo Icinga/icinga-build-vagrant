@@ -1,2 +1,0 @@
-IndexIgnore HEADER.html README.html style.css res favicon.ico
-IndexOptions FancyIndexing VersionSort HTMLTable NameWidth=* Charset=UTF-8 SuppressDescription FoldersFirst

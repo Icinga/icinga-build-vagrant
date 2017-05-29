@@ -1,15 +1,53 @@
 BODY {
-        font-family: 'Arial', 'Verdana', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  color: #666;
 }
 CODE {
-        font-size: 1.2em;
+  font-size: 1.2em;
 }
-.mug    {
-        float: left;
-        margin-right: 1em;
+
+h1 {
+  font-size: 26px;
+  font-weight: bold;
 }
-#name   {
-        font-family: Lucida Sans Unicode, Verdana, sans-serif;
-        font-size: 2.0em;
-        font-weight: bold;
+
+TABLE#indexlist, DIV#header, DIV#readme {
+  margin: 0 auto;
+  width: 80%;
+  max-width: 1255px;
+}
+
+A {
+  color: black;
+  font-weight: 900;
+  text-decoration: none;
+}
+A:hover, A:active {
+  text-decoration: underline;
+}
+
+TABLE#indexlist {
+  border-collapse: collapse;
+  margin-bottom: 2em;
+}
+TABLE#indexlist HR, TABLE TR.indexbreakrow {
+  display: none;
+}
+
+TABLE#indexlist TD, TABLE#indexlist TH {
+  padding: 0.4em 0.6em;
+  border-bottom: 1px solid #ccc;
+}
+TABLE#indexlist TH {
+  text-align: left;
+}
+TABLE#indexlist .indexcolicon {
+  padding: 0.1em;
+  width: 20px ! important;
+}
+
+ADDRESS {
+  margin: 0 auto;
+  width: 66%;
+  text-align: center;
 }

@@ -1,3 +1,5 @@
+<div id="readme">
+<h1><a href="http://www.ubuntu.com"><img src="../res/ubuntu-logo.png"></a> Ubuntu</h1>
 <h2>Archive Key</h2>
 <p style="font-size: 0.8em;"><code>
 wget -O - http://packages.icinga.com/icinga.key | apt-key add -</code></p>
@@ -5,36 +7,20 @@ wget -O - http://packages.icinga.com/icinga.key | apt-key add -</code></p>
 
 <h2>Release Builds</h2>
 
+<p><strong>icinga-zesty</strong>
+<a href="dists/icinga-zesty/main/binary-i386/Packages">i386</a>
+<a href="dists/icinga-zesty/main/binary-amd64/Packages">amd64</a><br/>
+<code style="font-size: 0.9em;">
+deb http://packages.icinga.com/ubuntu icinga-zesty main<br/>
+deb-src http://packages.icinga.com/ubuntu icinga-zesty main
+</code></p>
+
 <p><strong>icinga-xenial</strong>
 <a href="dists/icinga-xenial/main/binary-i386/Packages">i386</a>
 <a href="dists/icinga-xenial/main/binary-amd64/Packages">amd64</a><br/>
 <code style="font-size: 0.9em;">
 deb http://packages.icinga.com/ubuntu icinga-xenial main<br/>
 deb-src http://packages.icinga.com/ubuntu icinga-xenial main
-</code></p>
-
-<p><strong>icinga-wily</strong>
-<a href="dists/icinga-wily/main/binary-i386/Packages">i386</a>
-<a href="dists/icinga-wily/main/binary-amd64/Packages">amd64</a><br/>
-<code style="font-size: 0.9em;">
-deb http://packages.icinga.com/ubuntu icinga-wily main<br/>
-deb-src http://packages.icinga.com/ubuntu icinga-wily main
-</code></p>
-
-<p><strong>icinga-vivid</strong>
-<a href="dists/icinga-vivid/main/binary-i386/Packages">i386</a>
-<a href="dists/icinga-vivid/main/binary-amd64/Packages">amd64</a><br/>
-<code style="font-size: 0.9em;">
-deb http://packages.icinga.com/ubuntu icinga-vivid main<br/>
-deb-src http://packages.icinga.com/ubuntu icinga-vivid main
-</code></p>
-
-<p><strong>icinga-utopic</strong>
-<a href="dists/icinga-utopic/main/binary-i386/Packages">i386</a>
-<a href="dists/icinga-utopic/main/binary-amd64/Packages">amd64</a><br/>
-<code style="font-size: 0.9em;">
-deb http://packages.icinga.com/ubuntu icinga-utopic main<br/>
-deb-src http://packages.icinga.com/ubuntu icinga-utopic main
 </code></p>
 
 <p><strong>icinga-trusty</strong>
@@ -45,20 +31,20 @@ deb http://packages.icinga.com/ubuntu icinga-trusty main<br/>
 deb-src http://packages.icinga.com/ubuntu icinga-trusty main
 </code></p>
 
-<p><strong>icinga-precise</strong>
-<a href="dists/icinga-precise/main/binary-i386/Packages">i386</a>
-<a href="dists/icinga-precise/main/binary-amd64/Packages">amd64</a><br/>
-<code style="font-size: 0.9em;">
-deb http://packages.icinga.com/ubuntu icinga-precise main<br/>
-deb-src http://packages.icinga.com/ubuntu icinga-precise main<br/>
-</code></p>
-
 <h2>Snapshot Builds</h2>
 
 <p style="font-weight: bold; color: red;">
 These are snapshot builds which are not suitable for production use. If you're setting up a production system
 please use the release packages instead.
 </p>
+
+<p><strong>icinga-zesty-snapshots</strong>
+<a href="dists/icinga-zesty-snapshots/main/binary-i386/Packages">i386</a>
+<a href="dists/icinga-zesty-snapshots/main/binary-amd64/Packages">amd64</a><br/>
+<code style="font-size: 0.9em;">
+deb http://packages.icinga.com/ubuntu icinga-zesty-snapshots main<br/>
+deb-src http://packages.icinga.com/ubuntu icinga-zesty-snapshots main
+</code></p>
 
 <p><strong>icinga-xenial-snapshots</strong>
 <a href="dists/icinga-xenial-snapshots/main/binary-i386/Packages">i386</a>
@@ -68,30 +54,6 @@ deb http://packages.icinga.com/ubuntu icinga-xenial-snapshots main<br/>
 deb-src http://packages.icinga.com/ubuntu icinga-xenial-snapshots main
 </code></p>
 
-<p><strong>icinga-wily-snapshots</strong>
-<a href="dists/icinga-wily-snapshots/main/binary-i386/Packages">i386</a>
-<a href="dists/icinga-wily-snapshots/main/binary-amd64/Packages">amd64</a><br/>
-<code style="font-size: 0.9em;">
-deb http://packages.icinga.com/ubuntu icinga-wily-snapshots main<br/>
-deb-src http://packages.icinga.com/ubuntu icinga-wily-snapshots main
-</code></p>
-
-<p><strong>icinga-vivid-snapshots</strong>
-<a href="dists/icinga-vivid-snapshots/main/binary-i386/Packages">i386</a>
-<a href="dists/icinga-vivid-snapshots/main/binary-amd64/Packages">amd64</a><br/>
-<code style="font-size: 0.9em;">
-deb http://packages.icinga.com/ubuntu icinga-vivid-snapshots main<br/>
-deb-src http://packages.icinga.com/ubuntu icinga-vivid-snapshots main
-</code></p>
-
-<p><strong>icinga-utopic-snapshots</strong>
-<a href="dists/icinga-utopic-snapshots/main/binary-i386/Packages">i386</a>
-<a href="dists/icinga-utopic-snapshots/main/binary-amd64/Packages">amd64</a><br/>
-<code style="font-size: 0.9em;">
-deb http://packages.icinga.com/ubuntu icinga-utopic-snapshots main<br/>
-deb-src http://packages.icinga.com/ubuntu icinga-utopic-snapshots main
-</code></p>
-
 <p><strong>icinga-trusty-snapshots</strong>
 <a href="dists/icinga-trusty-snapshots/main/binary-i386/Packages">i386</a>
 <a href="dists/icinga-trusty-snapshots/main/binary-amd64/Packages">amd64</a><br/>
@@ -99,12 +61,3 @@ deb-src http://packages.icinga.com/ubuntu icinga-utopic-snapshots main
 deb http://packages.icinga.com/ubuntu icinga-trusty-snapshots main<br/>
 deb-src http://packages.icinga.com/ubuntu icinga-trusty-snapshots main
 </code></p>
-
-<p><strong>icinga-precise-snapshots</strong>
-<a href="dists/icinga-precise-snapshots/main/binary-i386/Packages">i386</a>
-<a href="dists/icinga-precise-snapshots/main/binary-amd64/Packages">amd64</a><br/>
-<code style="font-size: 0.9em;">
-deb http://packages.icinga.com/ubuntu icinga-precise-snapshots main<br/>
-deb-src http://packages.icinga.com/ubuntu icinga-precise-snapshots main<br/>
-</code></p>
-

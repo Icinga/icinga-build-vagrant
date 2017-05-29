@@ -1,3 +1,6 @@
 Options +Indexes
+IndexStyleSheet "/res/style.css"
 IndexIgnore HEADER.html README.html style.css res favicon.ico sles_dvds
 IndexOptions FancyIndexing VersionSort HTMLTable NameWidth=* Charset=UTF-8 SuppressDescription FoldersFirst
+IndexHeadInsert "<link href=\"https://fonts.googleapis.com/css?family=Open+Sans\" rel=\"stylesheet\">"
+HeaderName /HEADER.html
