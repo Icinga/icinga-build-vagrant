@@ -115,92 +115,104 @@ icinga_build::docker_job:
       - "wheezy"
       - "jessie"
 
+icinga_build::matrix::icinga2::deb: &icinga2_matrix_deb
+  'debian-jessie': {}
+  'debian-wheezy': {}
+  'ubuntu-xenial':
+    use: ubuntu
+  'ubuntu-trusty':
+    use: ubuntu
+  'ubuntu-yakkety':
+    use: ubuntu
+  'ubuntu-zesty':
+    use: ubuntu
+icinga_build::matrix::icinga2::rpm: &icinga2_matrix_rpm
+  'centos-5':
+    ensure: absent
+  'centos-6': {}
+  'centos-7':
+    arch:
+      - x86_64
+  'sles-11.4': {}
+  'sles-12.1':
+    arch:
+      - x86_64
+  'sles-12.2':
+    arch:
+      - x86_64
+  'opensuse-13.2':
+    ensure: absent
+  'opensuse-42.1':
+    ensure: absent
+  'opensuse-42.2':
+    arch:
+      - x86_64
+  'opensuse-42.3':
+    arch:
+      - x86_64
+  'fedora-24': {}
+  'fedora-25': {}
+
+icinga_build::matrix::icingaweb2::deb: &icingaweb2_matrix_deb
+  'debian-wheezy': {}
+  'debian-jessie': {}
+  #'debian-stretch': {}
+  'ubuntu-precise': {}
+  'ubuntu-trusty': {}
+  'ubuntu-xenial': {}
+  'ubuntu-yakkety':
+    use: 'xenial'
+  'ubuntu-zesty':
+    use: 'xenial'
+
+icinga_build::matrix::icingaweb2::rpm: &icingaweb2_matrix_rpm
+  'centos-5':
+    ensure: absent
+  'centos-6': {}
+  'centos-7': {}
+  'sles-11.4': {}
+  'sles-12.1': {}
+  'sles-12.2': {}
+  'opensuse-13.2':
+    ensure: absent
+  'opensuse-42.1':
+    ensure: absent
+  'opensuse-42.2': {}
+  'opensuse-42.3': {}
+  'fedora-24': {}
+  'fedora-25': {}
+
+
 icinga_build::pipeline:
   icinga2-snapshot:
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
     release_type: snapshot
     matrix_deb:
-      'debian-jessie': {}
-      'debian-wheezy': {}
-      'ubuntu-xenial':
-        use: ubuntu
-      'ubuntu-trusty':
-        use: ubuntu
-      'ubuntu-yakkety':
-        use: ubuntu
-      'ubuntu-zesty':
-        use: ubuntu
+      <<: *icinga2_matrix_deb
     matrix_rpm:
-      'centos-5':
-        ensure: absent
-      'centos-6': {}
-      'centos-7':
-        arch:
-          - x86_64
-      'sles-11.4': {}
-      'sles-12.1':
-        arch:
-          - x86_64
-      'sles-12.2':
-        arch:
-          - x86_64
-      'opensuse-13.2':
-        ensure: absent
-      'opensuse-42.1':
-        ensure: absent
-      'opensuse-42.2':
-        arch:
-          - x86_64
-      'opensuse-42.3':
-        arch:
-          - x86_64
-      'fedora-24': {}
-      'fedora-25': {}
+      <<: *icinga2_matrix_rpm
+
+  icinga2-giraffe:
+    control_repo: https://github.com/Icinga/icinga-packaging.git
+    control_branch: snapshot
+    release_type: giraffe
+    allow_release: true
+    parameters:
+      UPSTREAM_GIT_BRANCH: support/2.6
+    matrix_deb:
+      <<: *icinga2_matrix_deb
+    matrix_rpm:
+      <<: *icinga2_matrix_rpm
 
   icinga2-release:
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: release
     release_type: release
-    arch:
-      - x86_64
     matrix_deb:
-      'debian-jessie': {}
-      'debian-wheezy': {}
-      'ubuntu-xenial':
-        use: ubuntu
-      'ubuntu-trusty':
-        use: ubuntu
-      'ubuntu-yakkety':
-        use: ubuntu
-      'ubuntu-zesty':
-        use: ubuntu
+      <<: *icinga2_matrix_deb
     matrix_rpm:
-      'centos-5':
-        ensure: absent
-      'centos-6': {}
-      'centos-7':
-        arch:
-          - x86_64
-      'sles-11.4': {}
-      'sles-12.1':
-        arch:
-          - x86_64
-      'sles-12.2':
-        arch:
-          - x86_64
-      'opensuse-13.2':
-        ensure: absent
-      'opensuse-42.1':
-        ensure: absent
-      'opensuse-42.2':
-        arch:
-          - x86_64
-      'opensuse-42.3':
-        arch:
-          - x86_64
-      'fedora-24': {}
-      'fedora-25': {}
+      <<: *icinga2_matrix_rpm
 
   icingaweb2-snapshot:
     control_repo: https://github.com/Icinga/icinga-packaging.git
@@ -209,32 +221,23 @@ icinga_build::pipeline:
     arch:
       - x86_64
     matrix_deb:
-      'debian-wheezy': {}
-      'debian-jessie': {}
-      #'debian-stretch': {}
-      'ubuntu-precise': {}
-      'ubuntu-trusty': {}
-      'ubuntu-xenial': {}
-      'ubuntu-yakkety':
-        use: 'xenial'
-      'ubuntu-zesty':
-        use: 'xenial'
+      <<: *icingaweb2_matrix_deb
     matrix_rpm:
-      'centos-5':
-        ensure: absent
-      'centos-6': {}
-      'centos-7': {}
-      'sles-11.4': {}
-      'sles-12.1': {}
-      'sles-12.2': {}
-      'opensuse-13.2':
-        ensure: absent
-      'opensuse-42.1':
-        ensure: absent
-      'opensuse-42.2': {}
-      'opensuse-42.3': {}
-      'fedora-24': {}
-      'fedora-25': {}
+      <<: *icingaweb2_matrix_rpm
+
+  icingaweb2-giraffe:
+    control_repo: https://github.com/Icinga/icinga-packaging.git
+    control_branch: snapshot
+    release_type: giraffe
+    allow_release: true
+    parameters:
+      UPSTREAM_GIT_BRANCH: support/2.4
+    arch:
+      - x86_64
+    matrix_deb:
+      <<: *icingaweb2_matrix_deb
+    matrix_rpm:
+      <<: *icingaweb2_matrix_rpm
 
   icingaweb2-release:
     control_repo: https://github.com/Icinga/icinga-packaging.git
@@ -243,32 +246,9 @@ icinga_build::pipeline:
     arch:
       - x86_64
     matrix_deb:
-      'debian-wheezy': {}
-      'debian-jessie': {}
-      #'debian-stretch': {}
-      'ubuntu-precise': {}
-      'ubuntu-trusty': {}
-      'ubuntu-xenial': {}
-      'ubuntu-yakkety':
-        use: 'xenial'
-      'ubuntu-zesty':
-        use: 'xenial'
+      <<: *icingaweb2_matrix_deb
     matrix_rpm:
-      'centos-5':
-        ensure: absent
-      'centos-6': {}
-      'centos-7': {}
-      'sles-11.4': {}
-      'sles-12.1': {}
-      'sles-12.2': {}
-      'opensuse-13.2':
-        ensure: absent
-      'opensuse-42.1':
-        ensure: absent
-      'opensuse-42.2': {}
-      'opensuse-42.3': {}
-      'fedora-24': {}
-      'fedora-25': {}
+      <<: *icingaweb2_matrix_rpm
 
   icingaweb2-dev:
     control_repo: https://github.com/Icinga/icinga-packaging.git
