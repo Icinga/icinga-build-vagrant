@@ -158,6 +158,50 @@ icinga_build::pipeline:
       'fedora-24': {}
       'fedora-25': {}
 
+  icinga2-giraffe:
+    control_repo: https://github.com/Icinga/icinga-packaging.git
+    control_branch: snapshot
+    release_type: giraffe
+    parameters:
+      UPSTREAM_GIT_BRANCH: support/2.6
+    matrix_deb:
+      'debian-jessie': {}
+      'debian-wheezy': {}
+      'ubuntu-xenial':
+        use: ubuntu
+      'ubuntu-trusty':
+        use: ubuntu
+      'ubuntu-yakkety':
+        use: ubuntu
+      'ubuntu-zesty':
+        use: ubuntu
+    matrix_rpm:
+      'centos-5':
+        ensure: absent
+      'centos-6': {}
+      'centos-7':
+        arch:
+          - x86_64
+      'sles-11.4': {}
+      'sles-12.1':
+        arch:
+          - x86_64
+      'sles-12.2':
+        arch:
+          - x86_64
+      'opensuse-13.2':
+        ensure: absent
+      'opensuse-42.1':
+        ensure: absent
+      'opensuse-42.2':
+        arch:
+          - x86_64
+      'opensuse-42.3':
+        arch:
+          - x86_64
+      'fedora-24': {}
+      'fedora-25': {}
+
   icinga2-release:
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: release
