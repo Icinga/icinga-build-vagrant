@@ -197,6 +197,7 @@ icinga_build::pipeline:
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
     release_type: giraffe
+    allow_release: true
     parameters:
       UPSTREAM_GIT_BRANCH: support/2.6
     matrix_deb:
@@ -228,6 +229,7 @@ icinga_build::pipeline:
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
     release_type: giraffe
+    allow_release: true
     parameters:
       UPSTREAM_GIT_BRANCH: support/2.4
     arch:
