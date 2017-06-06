@@ -5,7 +5,6 @@ def setup_puppet_vm(config)
   config.vm.provider 'virtualbox' do |vb|
     vb.cpus = 2
     vb.memory = '1024'
-    vb.linked_clone = true if Vagrant::VERSION =~ /^1.8/
     config.vm.synced_folder '.', '/vagrant', :type => 'virtualbox' # avoid rsync
   end
 
