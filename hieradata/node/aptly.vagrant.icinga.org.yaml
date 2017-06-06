@@ -54,6 +54,8 @@ aptly::aptly_repos:
     comment: 'Icinga 2 Debian wheezy snapshots'
   icinga-debian-jessie-snapshot:
     comment: 'Icinga 2 Debian jessie snapshots'
+  icinga-debian-stretch-snapshot:
+    comment: 'Icinga 2 Debian stretch snapshots'
   icinga-ubuntu-precise-snapshot:
     comment: 'Icinga 2 Ubuntu precise snapshots'
   icinga-ubuntu-trusty-snapshot:
@@ -68,6 +70,8 @@ aptly::aptly_repos:
     comment: 'Icinga 2 Debian wheezy giraffe test builds'
   icinga-debian-jessie-giraffe:
     comment: 'Icinga 2 Debian jessie giraffe test builds'
+  icinga-debian-stretch-giraffe:
+    comment: 'Icinga 2 Debian stretch giraffe test builds'
   icinga-ubuntu-precise-giraffe:
     comment: 'Icinga 2 Ubuntu precise giraffe test builds'
   icinga-ubuntu-trusty-giraffe:
@@ -82,6 +86,8 @@ aptly::aptly_repos:
     comment: 'Icinga 2 Debian wheezy releases'
   icinga-debian-jessie-release:
     comment: 'Icinga 2 Debian jessie releases'
+  icinga-debian-stretch-release:
+    comment: 'Icinga 2 Debian stretch releases'
   icinga-ubuntu-precise-release:
     comment: 'Icinga 2 Ubuntu precise releases'
   icinga-ubuntu-trusty-release:
