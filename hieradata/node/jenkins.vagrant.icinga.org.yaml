@@ -189,6 +189,7 @@ icinga_build::pipeline:
   icinga2-snapshot:
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
+    upstream_repo: https://github.com/Icinga/icinga2.git
     release_type: snapshot
     matrix_deb:
       <<: *icinga2_matrix_deb
@@ -198,6 +199,7 @@ icinga_build::pipeline:
   icinga2-giraffe:
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
+    upstream_repo: https://github.com/Icinga/icinga2.git
     release_type: giraffe
     allow_release: true
     parameters:
@@ -219,6 +221,7 @@ icinga_build::pipeline:
   icingaweb2-snapshot:
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
+    upstream_repo: https://github.com/Icinga/icingaweb2.git
     release_type: snapshot
     arch:
       - x86_64
@@ -230,6 +233,7 @@ icinga_build::pipeline:
   icingaweb2-giraffe:
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
+    upstream_repo: https://github.com/Icinga/icingaweb2.git
     release_type: giraffe
     allow_release: true
     parameters:
