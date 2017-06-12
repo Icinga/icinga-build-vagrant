@@ -221,9 +221,9 @@ icinga_build::pipeline:
       <<: *icinga2_matrix_rpm
 
   icingaweb2-snapshot:
-    control_repo: https://github.com/lazyfrosch/icinga-packaging.git
+    control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
-    upstream_repo: https://github.com/lazyfrosch/icingaweb2.git
+    upstream_repo: https://github.com/Icinga/icingaweb2.git
     release_type: snapshot
     scm_trigger: 'H H(0-6) * * *'
     arch:
@@ -234,9 +234,9 @@ icinga_build::pipeline:
       <<: *icingaweb2_matrix_rpm
 
   icingaweb2-giraffe:
-    control_repo: https://github.com/lazyfrosch/icinga-packaging.git
+    control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
-    upstream_repo: https://github.com/lazyfrosch/icingaweb2.git
+    upstream_repo: https://github.com/Icinga/icingaweb2.git
     upstream_branch: support/2.4
     release_type: giraffe
     allow_release: true
