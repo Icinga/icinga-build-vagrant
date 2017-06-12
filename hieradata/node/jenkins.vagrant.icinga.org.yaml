@@ -14,6 +14,9 @@ apt::source:
     include_src: false
     before: Class[jenkins]
 
+package:
+  git: {}
+
 #apt::pin:
 #  'jenkins':
 #    packages: '*'
@@ -200,10 +203,9 @@ icinga_build::pipeline:
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
     upstream_repo: https://github.com/Icinga/icinga2.git
+    upstream_branch: support/2.6
     release_type: giraffe
     allow_release: true
-    parameters:
-      UPSTREAM_GIT_BRANCH: support/2.6
     matrix_deb:
       <<: *icinga2_matrix_deb
     matrix_rpm:
@@ -219,10 +221,11 @@ icinga_build::pipeline:
       <<: *icinga2_matrix_rpm
 
   icingaweb2-snapshot:
-    control_repo: https://github.com/Icinga/icinga-packaging.git
+    control_repo: https://github.com/lazyfrosch/icinga-packaging.git
     control_branch: snapshot
-    upstream_repo: https://github.com/Icinga/icingaweb2.git
+    upstream_repo: https://github.com/lazyfrosch/icingaweb2.git
     release_type: snapshot
+    scm_trigger: 'H H(0-6) * * *'
     arch:
       - x86_64
     matrix_deb:
@@ -231,13 +234,12 @@ icinga_build::pipeline:
       <<: *icingaweb2_matrix_rpm
 
   icingaweb2-giraffe:
-    control_repo: https://github.com/Icinga/icinga-packaging.git
+    control_repo: https://github.com/lazyfrosch/icinga-packaging.git
     control_branch: snapshot
-    upstream_repo: https://github.com/Icinga/icingaweb2.git
+    upstream_repo: https://github.com/lazyfrosch/icingaweb2.git
+    upstream_branch: support/2.4
     release_type: giraffe
     allow_release: true
-    parameters:
-      UPSTREAM_GIT_BRANCH: support/2.4
     arch:
       - x86_64
     matrix_deb:
@@ -256,9 +258,12 @@ icinga_build::pipeline:
     matrix_rpm:
       <<: *icingaweb2_matrix_rpm
 
+  # TODO: re-enable when implemented
   icingaweb2-dev:
+    ensure: absent
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
+    upstream_repo: https://github.com/Icinga/icingaweb2.git
     release_type: dev
     arch:
       - x86_64
@@ -269,9 +274,12 @@ icinga_build::pipeline:
       'centos-6': {}
       'centos-7': {}
 
+  # TODO: re-enable when implemented
   icinga2-dev:
+    ensure: absent
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
+    upstream_repo: https://github.com/Icinga/icinga2.git
     release_type: dev
     arch:
       - x86_64
