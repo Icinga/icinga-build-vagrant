@@ -258,60 +258,33 @@ icinga_build::pipeline:
     matrix_rpm:
       <<: *icingaweb2_matrix_rpm
 
-  # TODO: re-enable when implemented
   icingaweb2-dev:
-    ensure: absent
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
     upstream_repo: https://github.com/Icinga/icingaweb2.git
     release_type: dev
+    parameters:
+      BUILD_BRANCH:
+        default: 'feature/some-feature'
     arch:
       - x86_64
     matrix_deb:
-      'debian-jessie': {}
-      'ubuntu-xenial': {}
+      <<: *icingaweb2_matrix_deb
     matrix_rpm:
-      'centos-6': {}
-      'centos-7': {}
+      <<: *icingaweb2_matrix_rpm
 
-  # TODO: re-enable when implemented
   icinga2-dev:
-    ensure: absent
     control_repo: https://github.com/Icinga/icinga-packaging.git
     control_branch: snapshot
     upstream_repo: https://github.com/Icinga/icinga2.git
     release_type: dev
-    arch:
-      - x86_64
-      - x86
+    parameters:
+      BUILD_BRANCH:
+        default: 'feature/some-feature'
     matrix_deb:
-      'debian-wheezy': {}
-      'debian-jessie': {}
-      #'debian-stretch': {}
-      'ubuntu-precise': {}
-      'ubuntu-trusty': {}
-      'ubuntu-xenial': {}
-      'ubuntu-yakkety': {}
+      <<: *icinga2_matrix_deb
     matrix_rpm:
-      'centos-5':
-        ensure: absent
-      'centos-6': {}
-      'centos-7': {}
-      'sles-11.4': {}
-      'sles-12.1': {}
-      'sles-12.2': {}
-      'opensuse-13.2':
-        ensure: absent
-      'opensuse-42.1':
-        ensure: absent
-      'fedora-24': {}
-      'fedora-25': {}
-      'debian-jessie':
-        # TODO: please kill me :)
-        ensure: absent
-      'ubuntu-xenial':
-        # TODO: please kill me :)
-        ensure: absent
+      <<: *icinga2_matrix_rpm
 
 
 jenkins::executors: 0
