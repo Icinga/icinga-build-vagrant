@@ -35,9 +35,14 @@ java::package: openjdk-8-jdk
 jenkins::cli::config::cli_jar: /usr/share/jenkins/jenkins-cli.jar
 jenkins::cli::config::puppet_helper: /usr/share/jenkins/puppet_helper.groovy
 
-jenkins::cli_ssh_keyfile: /var/lib/jenkins/.ssh/id_rsa
-# for type/provider:
-jenkins::cli::config::ssh_private_key: /var/lib/jenkins/.ssh/id_rsa
+jenkins::version: '2.89.3'
+jenkins::cli_remoting_free: true
+jenkins::cli_username: puppet
+jenkins::cli_password: 'CHANGEMENOW!'
+jenkins::cli::config::cli_username: "%{hiera('jenkins::cli_username')}"
+jenkins::cli::config::cli_password: "%{hiera('jenkins::cli_password')}"
+jenkins::cli::config::cli_remoting_free: true # see also jenkins::cli_remoting_free
+icinga_build::cli_password_hash: '#jbcrypt:$2a$10$RIuerzOEx6ZPxM6ccelodeYMn4.0Uc4uC/tdrIklD84Ha0DN6NHti'
 
 icinga_build::pipeline::defaults::aptly_server: 'http://192.168.33.3/api'
 icinga_build::pipeline::defaults::aptly_user: 'icinga'
@@ -327,9 +332,9 @@ jenkins::credentials:
       huiZIPGV0AI4JYqchmCtVfbIEw+PAlnK3qUMt6JrvjbiJ5aaBS2s
       -----END RSA PRIVATE KEY-----
 
+# DO NOT USE some hash '#' comments here!
 icinga_build::ssh_public_key: |
-  # INSECURE Icinga Slave Access key
-  ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtGIRhrYRnuzfENvBL/6YwwPIv4FVVLbHY70XpX8kUMK4oxFz9REwRK5pERNSqGOUAb66sVOLWCxgEAtfKsOxIA07OSGGzN9dlgOlNy/ud3qxbDo6RAiFHmP3eGDpA9uE0FiSMOoRqXaEG6lPFpfKta9JPOssh8rEvHQU8EAQbrYkPK8Rv6bZ3MYmTdOim1aV8HVSGmXMRtbCx/lVEpbfrnPJp/GbG1ewMXpOz9lr2YXJuhREoxcLflhlVACa7z4Ab5RxTXW71piyKV9x0X1tHb2KVbcD/byi+Sv89UwQU+ZHq3Og/57IOJcofSTWlpYlP1Fn95qrbPVzf4zVblRHR jenkins@icinga-build
+  ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtGIRhrYRnuzfENvBL/6YwwPIv4FVVLbHY70XpX8kUMK4oxFz9REwRK5pERNSqGOUAb66sVOLWCxgEAtfKsOxIA07OSGGzN9dlgOlNy/ud3qxbDo6RAiFHmP3eGDpA9uE0FiSMOoRqXaEG6lPFpfKta9JPOssh8rEvHQU8EAQbrYkPK8Rv6bZ3MYmTdOim1aV8HVSGmXMRtbCx/lVEpbfrnPJp/GbG1ewMXpOz9lr2YXJuhREoxcLflhlVACa7z4Ab5RxTXW71piyKV9x0X1tHb2KVbcD/byi+Sv89UwQU+ZHq3Og/57IOJcofSTWlpYlP1Fn95qrbPVzf4zVblRHR jenkins@icinga-build INSECURE Icinga Slave Access key
 
 icinga_build::ssh_private_key: |
   -----BEGIN RSA PRIVATE KEY-----
@@ -480,8 +485,8 @@ jenkins::plugin:
     version: '1.13'
   ssh-slaves:
     version: '1.25'
-  structs:
-    version: '1.10'
+  #structs:
+  #  version: '1.10'
   template-project:
     version: '1.5.2'
   token-macro:
