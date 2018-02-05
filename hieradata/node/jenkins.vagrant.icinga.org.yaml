@@ -8,10 +8,12 @@ apt::source:
   jenkins:
     location: 'http://pkg.jenkins-ci.org/debian-stable'
     repos: ''
-    key: 'D50582E6'
-    key_source: 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key'
+    key:
+      id: 'D50582E6'
+      source: 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key'
     release: "binary/"
-    include_src: false
+    include:
+      src: false
     before: Package[jenkins]
 
 package:
@@ -25,9 +27,9 @@ package:
 
 
 java::package: openjdk-8-jdk
-java::package_options:
-  - '-t'
-  - 'jessie-backports'
+#java::package_options:
+#  - '-t'
+#  - 'jessie-backports'
 
 # TODO: this is not auto-set on Debian
 jenkins::cli::config::cli_jar: /usr/share/jenkins/jenkins-cli.jar

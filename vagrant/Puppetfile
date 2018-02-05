@@ -2,18 +2,18 @@ mod 'icinga_build',
   git:    'git@github.com:Icinga/puppet-icinga_build.git',
   branch: 'master'
 
-mod 'puppetlabs/apache'
-mod 'puppetlabs/apt'
-mod 'puppetlabs/concat'
-mod 'puppetlabs/java'
-mod 'puppetlabs/stdlib', '4.12.0' # due to Puppet 3.8
+mod 'puppetlabs/apache', '2.3.0'
+mod 'puppetlabs/apt', '4.4.1'
+mod 'puppetlabs/concat', '4.1.1'
+mod 'puppetlabs/java', '2.3.0'
+mod 'puppetlabs/stdlib', '4.24.0'
 
-mod 'puppet/alternatives'
-mod 'puppet/archive'
-mod 'lazyfrosch/vagrantenv'
+mod 'puppet/alternatives', '2.0.0'
+mod 'puppet/archive', '2.2.0'
+mod 'lazyfrosch/vagrantenv', '0.1.0'
 
 mod 'jenkins',
   git: 'https://github.com/jenkinsci/puppet-jenkins.git',
   ref: '33ddc372cb8da998e34222e40f10e6bef6940045' # current master for upcoming 1.8.0
 
-mod 'gdsoperations/aptly'
+mod 'gdsoperations/aptly', '0.9.0'

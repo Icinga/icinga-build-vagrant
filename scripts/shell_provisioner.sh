@@ -5,13 +5,13 @@ set -e
 OSTYPE="unknown"
 
 if [ -x /usr/bin/lsb_release ]; then
-  OSTYPE=$(lsb_release -i -s)
-  CODENAME=$(lsb_release -sc)
+    OSTYPE=$(lsb_release -i -s)
+    CODENAME=$(lsb_release -sc)
 elif [ -e /etc/redhat-release ]; then
-  OSTYPE="RedHat"
+    OSTYPE="RedHat"
 else
-  echo "Unsupported OS!" >&2
-  exit 1
+    echo "Unsupported OS!" >&2
+    exit 1
 fi
 
 if [ ! -e /var/initial_update ]; then
@@ -35,44 +35,46 @@ if [ "$OSTYPE" = "Debian" ]; then
     fi
 
     bpp="/etc/apt/sources.list.d/backports-puppet3.list"
-    if [ ! -e "${bpp}" ]; then
-        echo "Using backports snapshot for Puppet 3.8"
-        echo "deb http://snapshot.debian.org/archive/debian/20160504T101549Z/ jessie-backports main" \
-            > "${bpp}"
-        apt-get -o Acquire::Check-Valid-Until=false update
+    if [ -e "${bpp}" ]; then
+        rm -f "${bpp}"
+    fi
+
+    debsrc=/etc/apt/sources.list.d/puppet5.list
+    if [ ! -e "$debsrc" ]; then
+        echo "Installing Puppetlabs release package..."
+        wget -O /tmp/puppetlabs.deb "https://apt.puppetlabs.com/puppet5-release-${CODENAME}.deb"
+        dpkg -i /tmp/puppetlabs.deb
+        rm -f /tmp/puppetlabs.deb
+        apt-get update
     fi
 elif [ "$OSTYPE" = "Ubuntu" ]; then
-    if [ ! -e /etc/apt/sources.list.d/puppetlabs.list ]; then
+    if [ ! -e /etc/apt/sources.list.d/puppet5.list ]; then
         echo "Installing Puppetlabs release package..."
-        wget -O /tmp/puppetlabs.deb "https://apt.puppetlabs.com/puppetlabs-release-${CODENAME}.deb"
+        wget -O /tmp/puppetlabs.deb "https://apt.puppetlabs.com/puppet5-release-${CODENAME}.deb"
         dpkg -i /tmp/puppetlabs.deb
         rm -f /tmp/puppetlabs.deb
         apt-get update
     fi
 elif [ "$OSTYPE" = "RedHat" ]; then
-    if [ ! -e /etc/yum.repos.d/puppetlabs.repo ]; then
-        echo "Installing Puppet 3 release..."
-        yum install -y https://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
+    if [ ! -e /etc/yum.repos.d/puppet5.repo ]; then
+        echo "Installing Puppet 5 release..."
+        yum install -y https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
     fi
 fi
 
 if [ "$OSTYPE" = "Debian" ]  || [ "$OSTYPE" = "Ubuntu" ]; then
-    if ! dpkg -l puppet &>/dev/null; then
+    if dpkg -s puppet &>/dev/null; then
+        echo "You have package 'puppet' for version < 4 installed." >&2
+        echo "Please fix this manually, this environment needs at least Puppet 4!" >&2
+        exit 1
+    elif ! dpkg -s puppet-agent &>/dev/null; then
         echo "Installing puppet..."
-        apt-get install -y "puppet=3.8*" "puppet-common=3.8*"
+        apt-get install -y "puppet-agent"
     fi
-
-    bpp="/etc/apt/sources.list.d/backports-puppet3.list"
-    if [ -e "${bpp}" ] && grep "^deb" "${bpp}"; then
-        echo "Disabling temporary snapshot repository..."
-        sed -i 's/^deb/#\0/' "${bpp}"
-        apt-get update
-    fi
-
 elif [ "$OSTYPE" = "RedHat" ]; then
     if ! rpm -q puppet &>/dev/null; then
         echo "Installing puppet..."
-        yum install -y puppet
+        yum install -y puppet-agent
     fi
 fi
 

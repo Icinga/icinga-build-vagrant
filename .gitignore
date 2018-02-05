@@ -6,6 +6,7 @@
 ## Vagrant
 /.vagrant/
 /vagrant/modules
+*.log
 
 ## editors
 [._]*.s[a-w][a-z]
