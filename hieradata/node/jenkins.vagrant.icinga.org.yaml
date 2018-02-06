@@ -47,8 +47,8 @@ icinga_build::cli_password_hash: '#jbcrypt:$2a$10$RIuerzOEx6ZPxM6ccelodeYMn4.0Uc
 icinga_build::pipeline::defaults::aptly_server: 'http://192.168.33.3/api'
 icinga_build::pipeline::defaults::aptly_user: 'icinga'
 icinga_build::pipeline::defaults::aptly_password: 'supersecret'
-#icinga_build::pipeline::defaults::docker_image: 'net-docker-registry.adm.netways.de:5000/netways/{os}-{dist}-{arch}'
-icinga_build::pipeline::defaults::docker_image: 'netways/{os}-{dist}-{arch}'
+icinga_build::pipeline::defaults::docker_image: 'net-docker-registry.adm.netways.de:5000/netways/{os}-{dist}-{arch}'
+#icinga_build::pipeline::defaults::docker_image: 'netways/{os}-{dist}-{arch}'
 icinga_build::pipeline::defaults::jenkins_label: 'docker-test'
 icinga_build::pipeline::defaults::arch:
   - x86_64
@@ -194,6 +194,32 @@ icinga_build::matrix::icingaweb2::rpm: &icingaweb2_matrix_rpm
   'fedora-24': {}
   'fedora-25': {}
 
+icinga_build::matrix::icinga2_templates::deb: &icinga2_templates_matrix_deb
+  'debian-wheezy':
+    use: stretch
+  'debian-jessie':
+    use: stretch
+  'debian-stretch':
+    use: stretch
+  'ubuntu-xenial':
+    use: stretch
+  'ubuntu-trusty':
+    use: stretch
+  'ubuntu-yakkety':
+    use: stretch
+  'ubuntu-zesty':
+    use: stretch
+icinga_build::matrix::icinga2_templates::rpm: &icinga2_templates_matrix_rpm
+  'centos-6': {}
+  'centos-7': {}
+  'sles-11.4': {}
+  'sles-12.1': {}
+  'sles-12.2': {}
+  'opensuse-42.2': {}
+  'opensuse-42.3': {}
+  'fedora-24': {}
+  'fedora-25': {}
+
 
 icinga_build::pipeline:
   icinga2-snapshot:
@@ -292,6 +318,35 @@ icinga_build::pipeline:
       <<: *icinga2_matrix_deb
     matrix_rpm:
       <<: *icinga2_matrix_rpm
+
+  icinga2-templates-snapshot:
+    control_deb: https://github.com/Icinga/deb-icinga2-templates.git
+    control_rpm: https://github.com/Icinga/rpm-icinga2-templates.git
+    control_branch: master
+    upstream_repo: https://github.com/Icinga/icinga-template-library.git
+    release_type: snapshot
+    arch:
+      - x86_64
+    matrix_deb:
+      <<: *icinga2_templates_matrix_deb
+    matrix_rpm:
+      <<: *icinga2_templates_matrix_rpm
+
+  icinga2-templates-dev:
+    control_deb: https://github.com/Icinga/deb-icinga2-templates.git
+    control_rpm: https://github.com/Icinga/rpm-icinga2-templates.git
+    control_branch: master
+    upstream_repo: https://github.com/Icinga/icinga-template-library.git
+    release_type: dev
+    parameters:
+      BUILD_BRANCH:
+        default: 'feature/some-feature'
+    arch:
+      - x86_64
+    matrix_deb:
+      <<: *icinga2_templates_matrix_deb
+    matrix_rpm:
+      <<: *icinga2_templates_matrix_rpm
 
 
 jenkins::executors: 0
