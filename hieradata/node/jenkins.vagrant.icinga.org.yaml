@@ -63,10 +63,22 @@ icinga_build::pipeline::defaults::views_hash:
 
 icinga_build::docker_job::defaults::jenkins_label: 'docker-test'
 icinga_build::docker_job::defaults::base_image: 'net-docker-registry.adm.netways.de:5000/netways/docker-images-bootstrap-xenial'
-#icinga_build::docker_job::defaults::docker_registry: 'net-docker-registry.adm.netways.de:5000'
+icinga_build::docker_job::defaults::build_image: 'net-docker-registry.adm.netways.de:5000/netways/docker-image-build'
+icinga_build::docker_job::defaults::docker_registry: 'net-docker-registry.adm.netways.de:5000'
 icinga_build::docker_job::defaults::publish: false
 
 icinga_build::docker_job:
+  image-build:
+    git_repo: https://github.com/Icinga/docker-image-build.git
+    build_image: ''
+    custom_shell: |
+      registry=
+      [ -z "$DOCKER_REGISTRY" ] || registry="${DOCKER_REGISTRY}/"
+      docker pull debian:stretch-slim
+      docker build --rm -t "${registry}netways/docker-image-build" .
+      if [ "$PUBLISH" = "true" ]; then
+        docker push "${registry}netways/docker-image-build"
+      fi
   centos-image:
     archs:
       - "x86"
@@ -75,13 +87,13 @@ icinga_build::docker_job:
       - "6"
       - "7"
     combination_filter: '!(release=="7" && arch=="x86")'
+  fedora:
+    git_repo: https://github.com/Icinga/docker-build-fedora.git
+    scm_trigger: 'H * * * *'
+    parameters:
+      DOCKER_IMAGE_PREFIX: netways/
   fedora-image:
-    archs:
-      - "x86"
-      - "x86_64"
-    releases:
-      - "24"
-      - "25"
+    ensure: absent
   sles-image:
     archs:
       - "x86"
