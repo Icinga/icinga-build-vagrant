@@ -20,23 +20,6 @@ def setup_puppet_vm(config)
   end
 end
 
-# Please also see https://github.com/coreos/coreos-vagrant/blob/master/Vagrantfile
-def setup_coreos(config)
-  update_channel = 'stable'
-  image_version = 'current'
-  config.vm.box = "coreos-#{update_channel}"
-  config.vm.box_url = "https://storage.googleapis.com/#{update_channel}.release.core-os.net/amd64-usr/#{image_version}/coreos_production_vagrant.json"
-
-  config.vm.provider 'virtualbox' do |vb|
-    vb.cpus = 2
-    vb.memory = '2048'
-  end
-
-  config.vm.provision 'shell' do |shell|
-    shell.path = 'scripts/provision_coreos_jenkins.sh'
-  end
-end
-
 Vagrant.configure(2) do |config|
   domain = 'vagrant.icinga.org'
 
@@ -61,12 +44,5 @@ Vagrant.configure(2) do |config|
     host.vm.network 'private_network', ip: '192.168.33.3'
 
     setup_puppet_vm(host)
-  end
-
-  config.vm.define 'docker1' do |host|
-    host.vm.hostname = "docker1.#{domain}"
-    host.vm.network 'private_network', ip: '192.168.33.81'
-
-    setup_coreos(host)
   end
 end
