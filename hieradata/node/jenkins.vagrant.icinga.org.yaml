@@ -69,6 +69,7 @@ icinga_build::docker_job::defaults::publish: false
 
 icinga_build::docker_job:
   image-build:
+    ensure: absent
     git_repo: https://github.com/Icinga/docker-image-build.git
     build_image: ''
     custom_shell: |
@@ -80,6 +81,7 @@ icinga_build::docker_job:
         docker push "${registry}netways/docker-image-build"
       fi
   centos-image:
+    ensure: absent
     archs:
       - "x86"
       - "x86_64"
@@ -88,13 +90,45 @@ icinga_build::docker_job:
       - "7"
     combination_filter: '!(release=="7" && arch=="x86")'
   fedora:
+    ensure: absent
     git_repo: https://github.com/Icinga/docker-build-fedora.git
-    scm_trigger: 'H * * * *'
+    #scm_trigger: 'H * * * *'
     parameters:
       DOCKER_IMAGE_PREFIX: netways/
   fedora-image:
     ensure: absent
+  sles-image-builder:
+    ensure: absent
+    git_repo: TODO
+    parameters:
+      DOCKER_IMAGE_PREFIX: netways/
+  sles-base:
+    ensure: absent
+    git_repo: TODO
+    build_image: 'net-docker-registry.adm.netways.de:5000/netways/sles-image-builder'
+    parameters:
+      # Note: we have to use a private mirror to build SLES images
+      # The images itself should be private, but contain no secrets after this build
+      SLES_DVD_USERNAME: "%{hiera('icinga_build::docker::sles_mirror_username')}"
+      SLES_DVD_PASSWORD:
+        type: Password
+        default: "%{hiera('icinga_build::docker::sles_mirror_password')}"
+    custom_shell: |
+      registry=
+      [ -z "$DOCKER_REGISTRY" ] || registry="${DOCKER_REGISTRY}/"
+
+      SLES_DVD="%{hiera('icinga_build::docker::sles_mirror')}/sles_dvds/11-x86-dvd1" ZYPPER_OPTS="--no-gpg-check" build-sles-image
+      SLES_DVD="%{hiera('icinga_build::docker::sles_mirror')}/sles_dvds/11-x86_64-dvd1" ZYPPER_OPTS="--no-gpg-check" build-sles-image
+
+      SLES_DVD="%{hiera('icinga_build::docker::sles_mirror')}/sles_dvds/sles-12-sp2-x86_64-dvd1" build-sles-image
+      SLES_DVD="%{hiera('icinga_build::docker::sles_mirror')}/sles_dvds/sles-12-sp3-x86_64-dvd1" build-sles-image
+
+      docker build --rm -t "${registry}netways/docker-image-build" .
+      if [ "$PUBLISH" = "true" ]; then
+        docker push "${registry}netways/docker-image-build"
+      fi
   sles-image:
+    ensure: absent
     archs:
       - "x86"
       - "x86_64"
@@ -112,6 +146,7 @@ icinga_build::docker_job:
         type: Password
         default: "%{hiera('icinga_build::docker::sles_mirror_password')}"
   opensuse-image:
+    ensure: absent
     archs:
       - "x86_64"
     releases:
@@ -120,6 +155,7 @@ icinga_build::docker_job:
     parameters:
       OPENSUSE_MIRROR: 'http://ftp.uni-kl.de/pub/linux/opensuse/distribution'
   ubuntu-image:
+    ensure: absent
     archs:
       - "x86"
       - "x86_64"
@@ -130,6 +166,7 @@ icinga_build::docker_job:
       - "yakkety"
       - "zesty"
   debian-image:
+    ensure: absent
     archs:
       - "x86"
       - "x86_64"
